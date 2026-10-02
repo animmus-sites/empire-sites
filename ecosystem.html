@@ -141,8 +141,29 @@ renderer.setSize(innerWidth, innerHeight);
 container.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x05070d);
-scene.fog = new THREE.Fog(0x05070d, 60, 150);
+scene.background = new THREE.Color(0x070a18);
+scene.fog = new THREE.Fog(0x0a0f22, 60, 160);
+
+// warm dusk sky dome (subtle amber horizon, dark pro sky above)
+{
+  const cv = document.createElement("canvas"); cv.width = 4; cv.height = 256;
+  const cx = cv.getContext("2d");
+  const gr = cx.createLinearGradient(0, 0, 0, 256);
+  gr.addColorStop(0.0, "#04060f");
+  gr.addColorStop(0.45, "#0a1026");
+  gr.addColorStop(0.72, "#1c2140");
+  gr.addColorStop(0.88, "#3b2c47");
+  gr.addColorStop(0.97, "#5a3d33");
+  gr.addColorStop(1.0, "#6e4630");
+  cx.fillStyle = gr; cx.fillRect(0, 0, 4, 256);
+  const tex = new THREE.CanvasTexture(cv);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const dome = new THREE.Mesh(
+    new THREE.SphereGeometry(320, 24, 16),
+    new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, fog: false })
+  );
+  scene.add(dome);
+}
 
 const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 400);
 camera.position.set(0, 34, 44);
@@ -239,23 +260,6 @@ function buildBot(t, spot) {
   edge.rotation.x = Math.PI / 2; edge.rotation.z = Math.PI / 6;
   edge.position.y = 0.52; g.add(edge);
 
-  const body = new THREE.Mesh(
-    new THREE.ConeGeometry(0.62, 1.25, 8),
-    new THREE.MeshStandardMaterial({ color: 0xdfe8ff, roughness: 0.35, metalness: 0.55 })
-  );
-  body.position.y = 1.35; body.userData.thread = t; g.add(body);
-  const head = new THREE.Mesh(
-    new THREE.SphereGeometry(0.42, 20, 16),
-    new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2, metalness: 0.3,
-      emissive: col, emissiveIntensity: 0.25 })
-  );
-  head.position.y = 2.25; head.userData.thread = t; g.add(head);
-  const beacon = new THREE.Mesh(
-    new THREE.SphereGeometry(0.14, 10, 8),
-    new THREE.MeshBasicMaterial({ color: col })
-  );
-  beacon.position.y = 2.85; g.add(beacon);
-
   let pulse = null;
   if (t.status === "building") {
     pulse = new THREE.Mesh(
@@ -264,21 +268,254 @@ function buildBot(t, spot) {
     );
     pulse.rotation.x = Math.PI / 2; pulse.position.y = 0.56; g.add(pulse);
   }
-  if (t.status === "attention") {
-    const hat = new THREE.Mesh(
-      new THREE.ConeGeometry(0.34, 0.5, 4),
-      new THREE.MeshBasicMaterial({ color: 0xffb02e })
-    );
-    hat.position.y = 3.25; g.add(hat);
-  }
 
   g.position.set(spot.x, 0, spot.z);
   scene.add(g);
   const lbl = makeLabel(t.project || t.title);
-  nodes.push({ t, g, head, beacon, pulse, lbl, phase: Math.random() * Math.PI * 2 });
+  const isHQ = /atlas hq/i.test(t.project || "");
+  nodes.push({ t, g, pulse, lbl, phase: Math.random() * Math.PI * 2, padR, isHQ, labelY: isHQ ? 11.6 : 3.9, robots: [] });
 }
 
 threads.forEach((t, i) => buildBot(t, slots[i] || { x: 0, z: 0 }));
+
+// ---------- life layer: walking robots, HQ tower, drones, data roads ----------
+const tmpV = new THREE.Vector3();
+const tmpV2 = new THREE.Vector3();
+
+// shared robot geometry / materials (reused everywhere — no per-frame allocs)
+const RGEO = {
+  leg: new THREE.BoxGeometry(0.09, 0.26, 0.09).translate(0, -0.13, 0),
+  body: new THREE.CapsuleGeometry(0.17, 0.16, 4, 10),
+  head: new THREE.SphereGeometry(0.175, 14, 12),
+  visor: new THREE.BoxGeometry(0.24, 0.085, 0.05),
+  antenna: new THREE.CylinderGeometry(0.016, 0.016, 0.2, 6),
+  tip: new THREE.SphereGeometry(0.05, 8, 8),
+  arm: new THREE.BoxGeometry(0.07, 0.27, 0.07).translate(0, -0.115, 0),
+  chest: new THREE.SphereGeometry(0.055, 8, 8),
+};
+const RMAT = {
+  shell: new THREE.MeshStandardMaterial({ color: 0xe9efff, roughness: 0.35, metalness: 0.45 }),
+  dark: new THREE.MeshStandardMaterial({ color: 0x1a2438, roughness: 0.5, metalness: 0.4 }),
+  visor: new THREE.MeshBasicMaterial({ color: 0x9fe8ff }),
+  gold: new THREE.MeshStandardMaterial({ color: 0xffc75e, roughness: 0.3, metalness: 0.85, emissive: 0x664d10, emissiveIntensity: 0.35 }),
+};
+const accentCache = new Map();
+function accentMat(hex) {
+  if (!accentCache.has(hex))
+    accentCache.set(hex, new THREE.MeshStandardMaterial({ color: hex, roughness: 0.4, metalness: 0.3, emissive: hex, emissiveIntensity: 0.35 }));
+  return accentCache.get(hex);
+}
+
+function makeRobot(accentHex, scale = 1) {
+  const accent = accentMat(accentHex);
+  const g = new THREE.Group();
+  const legL = new THREE.Mesh(RGEO.leg, RMAT.dark); legL.position.set(-0.11, 0.26, 0); g.add(legL);
+  const legR = new THREE.Mesh(RGEO.leg, RMAT.dark); legR.position.set(0.11, 0.26, 0); g.add(legR);
+  const bodyG = new THREE.Group(); bodyG.position.y = 0.26; g.add(bodyG);
+  const body = new THREE.Mesh(RGEO.body, RMAT.shell); body.position.y = 0.17; bodyG.add(body);
+  const chest = new THREE.Mesh(RGEO.chest, accent); chest.position.set(0, 0.18, 0.16); bodyG.add(chest);
+  const armL = new THREE.Mesh(RGEO.arm, accent); armL.position.set(-0.27, 0.32, 0); armL.rotation.z = 0.18; bodyG.add(armL);
+  const armR = new THREE.Mesh(RGEO.arm, accent); armR.position.set(0.27, 0.32, 0); armR.rotation.z = -0.18; bodyG.add(armR);
+  const headG = new THREE.Group(); headG.position.y = 0.52; bodyG.add(headG);
+  const head = new THREE.Mesh(RGEO.head, RMAT.shell); headG.add(head);
+  const visor = new THREE.Mesh(RGEO.visor, RMAT.visor); visor.position.set(0, 0.02, 0.13); headG.add(visor);
+  const ant = new THREE.Mesh(RGEO.antenna, RMAT.dark); ant.position.y = 0.24; headG.add(ant);
+  const tipMat = new THREE.MeshBasicMaterial({ color: accentHex });
+  const tip = new THREE.Mesh(RGEO.tip, tipMat); tip.position.y = 0.37; headG.add(tip);
+  g.scale.setScalar(scale);
+  return { g, legL, legR, armL, armR, bodyG, headG, tip, tipMat, bodyMesh: body, headMesh: head };
+}
+
+// "!" marker sprite for attention pads
+const bangTex = (() => {
+  const cv = document.createElement("canvas"); cv.width = cv.height = 128;
+  const cx = cv.getContext("2d");
+  cx.font = "900 96px Arial"; cx.textAlign = "center"; cx.textBaseline = "middle";
+  cx.lineWidth = 14; cx.strokeStyle = "#201203"; cx.strokeText("!", 64, 70);
+  cx.fillStyle = "#ffb02e"; cx.fillText("!", 64, 70);
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; return t;
+})();
+
+// neighbour graph (hex distance ~9.4)
+const neighbours = nodes.map((n, i) => {
+  const out = [];
+  nodes.forEach((m, j) => {
+    if (i !== j && n.g.position.distanceTo(m.g.position) < 10.8) out.push(j);
+  });
+  return out;
+});
+
+const robots = [];
+const rndInPad = (node, out) => {
+  const a = Math.random() * Math.PI * 2, r = Math.random() * node.padR * 0.55;
+  out.set(node.g.position.x + Math.cos(a) * r, 0.5, node.g.position.z + Math.sin(a) * r);
+  return out;
+};
+
+function robotChoose(rb) {
+  const node = nodes[rb.nodeIdx];
+  const st = node.t.status;
+  rb.from.copy(rb.g.position);
+  if (st === "quiet" && Math.random() < 0.62) {
+    rb.state = "sleep"; rb.dur = 5 + Math.random() * 9; rb.t = 0;
+    rb.tipMat.color.setHex(COLORS[st]).multiplyScalar(0.3);
+    return;
+  }
+  rb.tipMat.color.setHex(COLORS[st]);
+  const hop = neighbours[rb.nodeIdx].length && Math.random() < (st === "building" ? 0.45 : 0.3);
+  rb.destNode = hop ? neighbours[rb.nodeIdx][(Math.random() * neighbours[rb.nodeIdx].length) | 0] : rb.nodeIdx;
+  rndInPad(nodes[rb.destNode], rb.to);
+  rb.dist = rb.from.distanceTo(rb.to);
+  rb.state = "walk"; rb.t = 0;
+  rb.dur = Math.max(0.6, rb.dist / (1.5 + Math.random() * 0.7));
+}
+
+function spawnRobots() {
+  nodes.forEach((node, i) => {
+    let count = node.t.status === "building" ? 2 + (i % 2) : node.t.status === "attention" ? 2 : 1;
+    if (node.isHQ) count = 2;
+    for (let k = 0; k < count; k++) {
+      const parts = makeRobot(COLORS[node.t.status], 0.95 + Math.random() * 0.15);
+      parts.bodyMesh.userData.thread = node.t;
+      parts.headMesh.userData.thread = node.t;
+      rndInPad(node, parts.g.position);
+      parts.g.rotation.y = Math.random() * Math.PI * 2;
+      scene.add(parts.g);
+      const rb = { ...parts, nodeIdx: i, destNode: i, state: "work", t: Math.random() * 2,
+        dur: 1 + Math.random() * 3, dist: 0, phase: Math.random() * Math.PI * 2,
+        from: new THREE.Vector3(), to: new THREE.Vector3(), exc: null };
+      rb.from.copy(parts.g.position); rb.to.copy(parts.g.position);
+      if (node.t.status === "attention" && k === 0) {
+        const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: bangTex, transparent: true, depthWrite: false }));
+        sp.scale.setScalar(0.55); sp.position.y = 1.35; parts.g.add(sp); rb.exc = sp;
+      }
+      node.robots.push(rb); robots.push(rb);
+    }
+  });
+}
+spawnRobots();
+
+// --- Atlas HQ tower + the boss himself ---
+let atlasSpin = null, beamGroup = null, beamDisc = null;
+const hqNode = nodes.find((n) => n.isHQ);
+if (hqNode) {
+  const hx = hqNode.g.position.x, hz = hqNode.g.position.z;
+  const towerMat = new THREE.MeshStandardMaterial({ color: 0x2a3a5f, roughness: 0.35, metalness: 0.7, emissive: 0x2ee59d, emissiveIntensity: 0.08 });
+  const tower = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 1.05, 6.4, 8), towerMat);
+  tower.position.set(hx, 0.5 + 3.2, hz); tower.userData.thread = hqNode.t; scene.add(tower);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0x2ee59d });
+  [1.6, 3.4, 5.2].forEach((y) => {
+    const r = new THREE.Mesh(new THREE.TorusGeometry(1.02 - y * 0.055, 0.045, 8, 32), ringMat);
+    r.rotation.x = Math.PI / 2; r.position.set(hx, 0.5 + y, hz); scene.add(r);
+  });
+  const deck = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.25, 0.22, 8),
+    new THREE.MeshStandardMaterial({ color: 0x16233f, roughness: 0.4, metalness: 0.6, emissive: 0xffc75e, emissiveIntensity: 0.12 }));
+  deck.position.set(hx, 7.0, hz); deck.userData.thread = hqNode.t; scene.add(deck);
+
+  atlasSpin = new THREE.Group(); atlasSpin.position.set(hx, 7.11, hz); scene.add(atlasSpin);
+  const boss = makeRobot(0xffc75e, 1.65);
+  boss.bodyMesh.material = RMAT.gold; boss.headMesh.material = RMAT.gold;
+  boss.bodyMesh.userData.thread = hqNode.t; boss.headMesh.userData.thread = hqNode.t;
+  atlasSpin.add(boss.g);
+  // crown antenna + cape fin
+  const crown = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.035, 6, 12), RMAT.gold);
+  crown.rotation.x = Math.PI / 2; crown.position.y = 0.34; boss.headG.add(crown);
+  [-0.14, 0, 0.14].forEach((x) => {
+    const spike = new THREE.Mesh(new THREE.ConeGeometry(0.045, 0.16, 5), RMAT.gold);
+    spike.position.set(x, 0.42, 0); boss.headG.add(spike);
+  });
+  const cape = new THREE.Mesh(new THREE.ConeGeometry(0.34, 1.05, 6),
+    new THREE.MeshStandardMaterial({ color: 0x8a1f2d, roughness: 0.6, metalness: 0.2 }));
+  cape.position.set(0, 0.32, -0.3); cape.rotation.x = 0.5; cape.scale.z = 0.35; boss.bodyG.add(cape);
+  boss.tipMat.color.setHex(0xffe9a8);
+
+  // sweeping spotlight beam
+  const topY = 8.6, sweepR = 13;
+  const beamLen = Math.hypot(topY - 0.5, sweepR);
+  beamGroup = new THREE.Group(); beamGroup.position.set(hx, topY, hz); scene.add(beamGroup);
+  const holder = new THREE.Group(); holder.rotation.z = Math.atan2(sweepR, topY - 0.5); beamGroup.add(holder);
+  const beamGeo = new THREE.ConeGeometry(3.1, beamLen, 24, 1, true).translate(0, -beamLen / 2, 0);
+  const beam = new THREE.Mesh(beamGeo, new THREE.MeshBasicMaterial({ color: 0xffe2b0, transparent: true,
+    opacity: 0.065, blending: THREE.AdditiveBlending, side: THREE.DoubleSide, depthWrite: false, fog: false }));
+  holder.add(beam);
+  const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.22, 10, 8), new THREE.MeshBasicMaterial({ color: 0xffe9a8 }));
+  beamGroup.add(lamp);
+  beamDisc = new THREE.Mesh(new THREE.CircleGeometry(2.7, 24),
+    new THREE.MeshBasicMaterial({ color: 0xffd9a0, transparent: true, opacity: 0.13, blending: THREE.AdditiveBlending, depthWrite: false }));
+  beamDisc.rotation.x = -Math.PI / 2; beamDisc.position.set(hx + sweepR, 0.58, hz); scene.add(beamDisc);
+  const warm = new THREE.PointLight(0xffb37a, 60, 42, 1.8); warm.position.set(hx, 8.4, hz); scene.add(warm);
+}
+
+// --- glowing data roads HQ -> building pads, with travelling packets ---
+const roadCurves = [];
+{
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x2ee59d, transparent: true, opacity: 0.32 });
+  const pts = [];
+  if (hqNode) {
+    nodes.forEach((n) => {
+      if (n === hqNode || n.t.status !== "building") return;
+      const a = new THREE.Vector3(hqNode.g.position.x, 1.1, hqNode.g.position.z);
+      const b = new THREE.Vector3(n.g.position.x, 1.0, n.g.position.z);
+      const mid = a.clone().lerp(b, 0.5); mid.y = 3.4 + a.distanceTo(b) * 0.06;
+      const curve = new THREE.QuadraticBezierCurve3(a, mid, b);
+      roadCurves.push(curve);
+      pts.push(...curve.getPoints(28));
+    });
+  }
+  if (pts.length) {
+    const lg = new THREE.BufferGeometry().setFromPoints(pts);
+    // build as segments pairs
+    const segPts = [];
+    let off = 0;
+    roadCurves.forEach((c) => { const p = c.getPoints(28); for (let i = 0; i < p.length - 1; i++) segPts.push(p[i], p[i + 1]); });
+    const sg = new THREE.BufferGeometry().setFromPoints(segPts);
+    scene.add(new THREE.LineSegments(sg, lineMat));
+  }
+}
+const PACKETS = roadCurves.length * 3;
+const packetPos = new Float32Array(Math.max(3, PACKETS) * 3);
+const packetData = [];
+for (let i = 0; i < PACKETS; i++)
+  packetData.push({ road: i % Math.max(1, roadCurves.length), u: Math.random(), speed: 0.1 + Math.random() * 0.12 });
+const packetGeo = new THREE.BufferGeometry();
+packetGeo.setAttribute("position", new THREE.BufferAttribute(packetPos, 3));
+const packets = new THREE.Points(packetGeo, new THREE.PointsMaterial({ color: 0x7dffc8, size: 0.42, transparent: true, opacity: 0.95, depthWrite: false }));
+packets.visible = roadCurves.length > 0;
+scene.add(packets);
+
+// --- drones on lazy loops ---
+const drones = [];
+{
+  const droneBody = new THREE.BoxGeometry(0.52, 0.16, 0.52);
+  const droneMat = new THREE.MeshStandardMaterial({ color: 0x232f4d, roughness: 0.4, metalness: 0.6 });
+  const rotorGeo = new THREE.CircleGeometry(0.16, 10);
+  const rotorMat = new THREE.MeshBasicMaterial({ color: 0xaac8ff, transparent: true, opacity: 0.5, side: THREE.DoubleSide });
+  for (let i = 0; i < 4; i++) {
+    const g = new THREE.Group();
+    const b = new THREE.Mesh(droneBody, droneMat); g.add(b);
+    const rotors = [];
+    [[-0.3, -0.3], [0.3, -0.3], [-0.3, 0.3], [0.3, 0.3]].forEach(([x, z]) => {
+      const r = new THREE.Mesh(rotorGeo, rotorMat); r.rotation.x = -Math.PI / 2; r.position.set(x, 0.1, z); g.add(r); rotors.push(r);
+    });
+    const lampMat = new THREE.MeshBasicMaterial({ color: 0xff5d6c });
+    const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.07, 8, 8), lampMat); lamp.position.y = -0.12; g.add(lamp);
+    scene.add(g);
+    drones.push({ g, rotors, lampMat, r: 15 + i * 4.5, h: 12.5 + i * 1.6, speed: 0.05 + i * 0.012, phase: i * 1.7, blink: 2 + i * 0.7 });
+  }
+}
+
+// --- floating sparkles ---
+const SPARKS = 240;
+const sparkPos = new Float32Array(SPARKS * 3);
+const sparkSeed = new Float32Array(SPARKS);
+for (let i = 0; i < SPARKS; i++) {
+  const a = Math.random() * Math.PI * 2, r = Math.sqrt(Math.random()) * 44;
+  sparkPos[i * 3] = Math.cos(a) * r; sparkPos[i * 3 + 1] = 0.3 + Math.random() * 6.5; sparkPos[i * 3 + 2] = Math.sin(a) * r;
+  sparkSeed[i] = Math.random() * 100;
+}
+const sparkGeo = new THREE.BufferGeometry();
+sparkGeo.setAttribute("position", new THREE.BufferAttribute(sparkPos, 3));
+scene.add(new THREE.Points(sparkGeo, new THREE.PointsMaterial({ color: 0xffd9a0, size: 0.17, transparent: true, opacity: 0.65, depthWrite: false })));
 
 // ---------- side panel ----------
 const listEl = document.getElementById("list");
@@ -352,9 +589,55 @@ let lastTouch = Date.now();
 
 // ---------- animate ----------
 const clockT = new THREE.Clock();
+const angLerp = (a, b, k) => {
+  let d = (b - a) % (Math.PI * 2);
+  if (d > Math.PI) d -= Math.PI * 2;
+  if (d < -Math.PI) d += Math.PI * 2;
+  return a + d * k;
+};
+
+function updateRobot(rb, dt, t) {
+  rb.t += dt;
+  const st = nodes[rb.nodeIdx].t.status;
+  if (rb.state === "walk") {
+    const k = Math.min(1, rb.t / rb.dur);
+    rb.g.position.lerpVectors(rb.from, rb.to, k);
+    const cross = rb.dist > 2.6;
+    rb.g.position.y = 0.5 + Math.sin(k * Math.PI) * (cross ? 0.75 : 0.12);
+    const wp = t * 11 + rb.phase;
+    rb.legL.rotation.x = Math.sin(wp) * 0.75;
+    rb.legR.rotation.x = -Math.sin(wp) * 0.75;
+    rb.bodyG.position.y = 0.26 + Math.abs(Math.sin(wp)) * 0.045;
+    tmpV.subVectors(rb.to, rb.from);
+    if (tmpV.lengthSq() > 0.001) rb.g.rotation.y = angLerp(rb.g.rotation.y, Math.atan2(tmpV.x, tmpV.z), Math.min(1, dt * 8));
+    rb.armL.rotation.x = -Math.sin(wp) * 0.5; rb.armR.rotation.x = Math.sin(wp) * 0.5;
+    if (k >= 1) {
+      rb.nodeIdx = rb.destNode;
+      rb.state = "work"; rb.t = 0; rb.dur = st === "quiet" ? 2 + Math.random() * 3 : 2 + Math.random() * 4.5;
+      rb.g.position.y = 0.5;
+    }
+  } else if (rb.state === "work") {
+    rb.legL.rotation.x *= 0.8; rb.legR.rotation.x *= 0.8;
+    rb.bodyG.position.y = 0.26 + Math.sin(t * 2.2 + rb.phase) * 0.015;
+    rb.tip.scale.setScalar(1 + Math.sin(t * 7 + rb.phase) * 0.45);
+    rb.armL.rotation.x = Math.sin(t * 5.2 + rb.phase) * 0.55;
+    rb.armR.rotation.x = -Math.sin(t * 5.2 + rb.phase) * 0.55;
+    rb.headG.rotation.y = Math.sin(t * 0.9 + rb.phase) * 0.5;
+    if (rb.t >= rb.dur) robotChoose(rb);
+  } else { // sleep
+    rb.legL.rotation.x *= 0.8; rb.legR.rotation.x *= 0.8;
+    rb.bodyG.position.y = 0.245 + Math.sin(t * 0.85 + rb.phase) * 0.012;
+    rb.tip.scale.setScalar(0.75);
+    rb.headG.rotation.y *= 0.95;
+    if (rb.t >= rb.dur) { rb.tip.scale.setScalar(1); robotChoose(rb); }
+  }
+  if (rb.exc) rb.exc.position.y = 1.3 + Math.abs(Math.sin(t * 3.1 + rb.phase)) * 0.28;
+}
+
 function animate() {
   requestAnimationFrame(animate);
-  const t = clockT.getElapsedTime();
+  const dt = Math.min(0.05, clockT.getDelta());
+  const t = clockT.elapsedTime;
   if (Date.now() - lastTouch > 9000 && !fly) controls.autoRotate = true;
   if (fly) {
     fly.t = Math.min(1, fly.t + 0.022);
@@ -364,23 +647,52 @@ function animate() {
     if (fly.t >= 1) fly = null;
   }
   for (const n of nodes) {
-    n.g.position.y = Math.sin(t * 0.9 + n.phase) * 0.12;
-    n.head.rotation.y = t * 0.6 + n.phase;
-    const s = 1 + Math.sin(t * 2.4 + n.phase) * 0.25;
-    n.beacon.scale.setScalar(s);
     if (n.pulse) {
       const k = (t * 0.45 + n.phase) % 1;
       n.pulse.scale.setScalar(1 + k * 0.85);
       n.pulse.material.opacity = 0.75 * (1 - k);
     }
-    const v = new THREE.Vector3(n.g.position.x, 4.6 + n.g.position.y, n.g.position.z).project(camera);
-    if (v.z < 1) {
+    tmpV.set(n.g.position.x, n.labelY, n.g.position.z).project(camera);
+    if (tmpV.z < 1) {
       n.lbl.style.display = "block";
-      n.lbl.style.left = (v.x * 0.5 + 0.5) * innerWidth + "px";
-      n.lbl.style.top = (-v.y * 0.5 + 0.5) * innerHeight + "px";
+      n.lbl.style.left = (tmpV.x * 0.5 + 0.5) * innerWidth + "px";
+      n.lbl.style.top = (-tmpV.y * 0.5 + 0.5) * innerHeight + "px";
       n.lbl.style.opacity = selected && selected !== n.t ? 0.35 : 0.95;
     } else n.lbl.style.display = "none";
   }
+  for (const rb of robots) updateRobot(rb, dt, t);
+  if (atlasSpin) atlasSpin.rotation.y = t * 0.3;
+  if (beamGroup) {
+    beamGroup.rotation.y = t * 0.22;
+    if (beamDisc && hqNode) {
+      const a = t * 0.22;
+      beamDisc.position.set(hqNode.g.position.x + Math.cos(a) * 13, 0.58, hqNode.g.position.z - Math.sin(a) * 13);
+    }
+  }
+  for (const d of drones) {
+    const a = t * d.speed + d.phase;
+    d.g.position.set(Math.cos(a) * d.r, d.h + Math.sin(t * 0.5 + d.phase) * 1.4, Math.sin(a) * d.r * 0.75);
+    tmpV.set(Math.cos(a + 0.05) * d.r, d.g.position.y, Math.sin(a + 0.05) * d.r * 0.75);
+    d.g.lookAt(tmpV);
+    for (const r of d.rotors) r.rotation.z += dt * 28;
+    d.lampMat.color.setHex(Math.sin(t * d.blink) > 0 ? 0xff5d6c : 0x351016);
+  }
+  if (packets.visible) {
+    for (let i = 0; i < packetData.length; i++) {
+      const p = packetData[i];
+      p.u = (p.u + dt * p.speed) % 1;
+      roadCurves[p.road].getPoint(p.u, tmpV);
+      packetPos[i * 3] = tmpV.x; packetPos[i * 3 + 1] = tmpV.y; packetPos[i * 3 + 2] = tmpV.z;
+    }
+    packetGeo.attributes.position.needsUpdate = true;
+  }
+  for (let i = 0; i < SPARKS; i++) {
+    let y = sparkPos[i * 3 + 1] + dt * 0.32;
+    if (y > 7) y = 0.3;
+    sparkPos[i * 3 + 1] = y;
+    sparkPos[i * 3] += Math.sin(t * 0.6 + sparkSeed[i]) * dt * 0.14;
+  }
+  sparkGeo.attributes.position.needsUpdate = true;
   controls.update();
   renderer.render(scene, camera);
 }
