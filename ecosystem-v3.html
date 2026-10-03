@@ -40,7 +40,7 @@
   <div class="chips">
     <span class="chip gold">Verified revenue: <b>$0</b></span>
     <span class="chip">Ventures: <b id="ventureCount">27</b></span>
-    <span class="chip">Bots on shift: <b>12 council + crew</b></span>
+    <span class="chip">Bots on shift: <b>16 council + crew</b></span>
   </div>
 </div>
 
@@ -381,6 +381,10 @@ const runableBot = makeRobot(0xa78bfa, "Runable", 1.1, "#dcc9ff"); addToolProp(r
 const base44Bot = makeRobot(0x151312, "Base44", 1.1, "#dcffc9", { visor: 0xffb84d }); addBag(base44Bot); addCompass(base44Bot);
 const knimeBot = makeRobot(0xffd200, "KNIME", 1.1, "#ffe97a", { limb: 0x1a1a1a }); addNodeGraph(knimeBot);
 const skyvernBot = makeRobot(0x38bdf8, "Skyvern", 1.1, "#c9ecff", { limb: 0x7c5cd6 }); addBrowserCard(skyvernBot);
+const manusBot = makeRobot(0xe8e3d9, "Manus", 1.15, "#fff6e8", { limb: 0x4a3f35, visor: 0xff9f43 }); addToolProp(manusBot); addBag(manusBot);
+const kimiBot = makeRobot(0x0b0e1a, "Kimi", 1.15, "#cfe4ff", { limb: 0x22304a, visor: 0x7dd3fc }); addCitationCard(kimiBot);
+const nlmBot = makeRobot(0x8ab4f8, "NotebookLM", 1.1, "#dceaff", { limb: 0x2b4a8f }); addClipboard(nlmBot);
+const ideoBot = makeRobot(0xd946ef, "Ideogram", 1.1, "#ffd7fb", { limb: 0x4a1259 }); addStylus(ideoBot);
 const council = [
   walker(atlasBot, HQ, 3.4),
   walker(gptBot, HQ, 2.6),
@@ -394,6 +398,10 @@ const council = [
   walker(base44Bot, MM, 2.4),
   walker(knimeBot, MM, 2.2),
   walker(skyvernBot, CR, 3.1),
+  walker(manusBot, HQ, 2.5),
+  walker(kimiBot, HQ, 2.1),
+  walker(nlmBot, CC, 2.4),
+  walker(ideoBot, CC, 2.7),
 ];
 /* ChatGPT's signature: a floating "?" hologram while it investigates (its own design) */
 const qSprite = textSprite("?", "#7ef0c1", 0.8);
