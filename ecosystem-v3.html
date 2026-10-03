@@ -40,7 +40,7 @@
   <div class="chips">
     <span class="chip gold">Verified revenue: <b>$0</b></span>
     <span class="chip">Ventures: <b id="ventureCount">27</b></span>
-    <span class="chip">Bots on shift: <b>10 council + crew</b></span>
+    <span class="chip">Bots on shift: <b>12 council + crew</b></span>
   </div>
 </div>
 
@@ -319,6 +319,21 @@ function addToolProp(bot) { /* Runable's build tool (Atlas-styled placeholder un
   const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.34), new THREE.MeshStandardMaterial({ color:0x8a93a6, metalness:0.8, roughness:0.3 }));
   grip.position.set(0, -0.95, 0.1); grip.rotation.x = 0.5; bot.userData.armR.add(grip);
 }
+function addNodeGraph(bot) { /* KNIME's floating workflow nodes */
+  const grp = new THREE.Group(); grp.position.set(1.0, 3.2, 0);
+  const m = new THREE.MeshBasicMaterial({ color:0xffd200 });
+  [[0,0,0],[0.34,0.16,0],[0.34,-0.2,0.1]].forEach(p => { const s = new THREE.Mesh(new THREE.SphereGeometry(0.07, 8, 8), m); s.position.set(p[0], p[1], p[2]); grp.add(s); });
+  bot.add(grp); bot.userData.nodes = grp;
+}
+function addBrowserCard(bot) { /* Skyvern's little browser window */
+  const card = new THREE.Group();
+  const frame = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.38, 0.04), new THREE.MeshStandardMaterial({ color:0xeaf6ff, roughness:0.35 }));
+  card.add(frame);
+  const bar = new THREE.Mesh(new THREE.PlaneGeometry(0.46, 0.07), new THREE.MeshBasicMaterial({ color:0x38bdf8 }));
+  bar.position.set(0, 0.14, 0.021); card.add(bar);
+  card.position.set(0, -1.0, 0.16); card.rotation.x = 0.3;
+  bot.userData.armR.add(card);
+}
 function addBag(bot) { /* Base44's waxed-canvas messenger bag */
   const bag = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.42, 0.2), new THREE.MeshStandardMaterial({ color:0x8a6d3b, roughness:0.85 }));
   bag.position.set(-0.78, 1.1, 0); bot.add(bag);
@@ -364,6 +379,8 @@ const geminiBot = makeRobot(0x10182e, "Gemini", 1.1, "#bcd4ff", { limb: 0x27386b
 const dsBot = makeRobot(0x111318, "DeepSeek", 1.1, "#a8baff", { limb: 0x1f2733 }); addMonocle(dsBot, 0x22d3ee, 0x22d3ee); addCircuitRings(dsBot);
 const runableBot = makeRobot(0xa78bfa, "Runable", 1.1, "#dcc9ff"); addToolProp(runableBot);
 const base44Bot = makeRobot(0x151312, "Base44", 1.1, "#dcffc9", { visor: 0xffb84d }); addBag(base44Bot); addCompass(base44Bot);
+const knimeBot = makeRobot(0xffd200, "KNIME", 1.1, "#ffe97a", { limb: 0x1a1a1a }); addNodeGraph(knimeBot);
+const skyvernBot = makeRobot(0x38bdf8, "Skyvern", 1.1, "#c9ecff", { limb: 0x7c5cd6 }); addBrowserCard(skyvernBot);
 const council = [
   walker(atlasBot, HQ, 3.4),
   walker(gptBot, HQ, 2.6),
@@ -375,6 +392,8 @@ const council = [
   walker(dsBot, HQ, 2.3),
   walker(runableBot, CC, 2.9),
   walker(base44Bot, MM, 2.4),
+  walker(knimeBot, MM, 2.2),
+  walker(skyvernBot, CR, 3.1),
 ];
 /* ChatGPT's signature: a floating "?" hologram while it investigates (its own design) */
 const qSprite = textSprite("?", "#7ef0c1", 0.8);
@@ -489,6 +508,7 @@ function animate(){
     d.rotation.y = -u.a;
   });
   VENTURES.forEach(v => { if (v._beacon) { const s = 1 + Math.sin(t*2.4 + v._beacon.userData.pulse)*0.3; v._beacon.scale.setScalar(s); } if (v._scaf) v._scaf.rotation.y += v._scaf.userData.spin * 0.016; if (v._b) { const rate = v.s === "live" ? 2.2 : v.s === "hq" ? 3 : v.s === "virtual" ? 1.2 : 0.6; v._b.material.emissiveIntensity = 0.18 + (Math.sin(t*rate + v.h) * 0.5 + 0.5) * 0.3; } });
+  knimeBot.userData.nodes.rotation.y = t * 1.4; /* KNIME workflow nodes orbit */
   if (council[1].q) council[1].q.visible = Math.sin(t * 0.45) > 0.55; /* ChatGPT investigates in bursts */
   if (council[6].q) council[6].q.visible = Math.sin(t * 0.45 + 2.4) > 0.6; /* Gemini's halo "?" flickers offset */
   geminiBot.userData.halo.rotation.z = t * 1.2; /* halo slowly spins */
