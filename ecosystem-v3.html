@@ -55,7 +55,7 @@
   <h2 id="ipName">FORGEMIND HQ</h2>
   <div class="status" id="ipStatus" style="color:#ffd166">COMMAND CENTER</div>
   <p id="ipDesc">Atlas's tower. Every venture in the empire reports here. Click any building in the city to inspect it. Drag to orbit, scroll to zoom.</p>
-  <div class="hint">Tip: the big gold robot is Atlas. The black-and-silver one with the floating “?” is ChatGPT, out inspecting.</div>
+  <div class="hint">Every council robot dressed itself: ChatGPT carries the clipboard, Claude wears the glasses, Grok has the forehead lens, Base44 the compass. Find them in their districts.</div>
 </div>
 
 <div class="hud" id="clockCard">
@@ -99,7 +99,7 @@ const VENTURES = [
   // COMMERCE ROW
   { n:"Payhip — AnimEmpire", d:3, s:"live", h:10, info:"5 digital products, Stripe CONNECTED. Checkout verified live. First sale unlocks the spending deal." },
   { n:"Animmus Sites Studio", d:3, s:"live", h:10, info:"Website studio: $750/$1,500/$2,950 builds for local businesses. Saturday call sheet ready." },
-  { n:"MinaStays", d:3, s:"staged", h:9, info:"Direct-booking site for Mina's Airbnbs — guests skip Airbnb fees. minastays.eu.org application in flight." },
+  { n:"MinaStays", d:3, s:"live", h:9, info:"Direct-booking site LIVE for Mina's 14 El Mirage Airbnbs — guests skip Airbnb fees. minastays.eu.org in EU.org review (2-8wk), DNS pre-wired." },
   { n:"Fourthwall POD", d:3, s:"staged", h:8, info:"Wag & Whisker (50), The Breakroom (24), Brew Ha Ha (24). Payout connect is Mina's step." },
   { n:"Redbubble AnimEmpire", d:3, s:"staged", h:7, info:"30 works on the dashboard. Public visibility check + design-08 retry owed." },
   { n:"eBay + CJ", d:3, s:"blocked", h:7, info:"Seller animmus_80 live, $0 selling allowance until ~Nov 1. CJ connected. First test: LED cabinet light." },
@@ -246,20 +246,21 @@ holo.rotation.x = Math.PI/2; holo.position.y = 19; scene.add(holo);
 const holo2 = holo.clone(); holo2.position.y = 21.5; holo2.scale.setScalar(0.75); scene.add(holo2);
 
 /* ============ ROBOTS ============ */
-function makeRobot(color, name, scale=1, labelColor="#ffffff") {
+function makeRobot(color, name, scale=1, labelColor="#ffffff", opts={}) {
   const g = new THREE.Group();
   const mat = new THREE.MeshStandardMaterial({ color, roughness:0.35, metalness:0.55 });
-  const dark = new THREE.MeshStandardMaterial({ color:0x1a2438, roughness:0.4, metalness:0.6 });
+  const headMat = new THREE.MeshStandardMaterial({ color: opts.headColor ?? color, roughness:0.35, metalness:0.55 });
+  const dark = new THREE.MeshStandardMaterial({ color: opts.limb ?? 0x1a2438, roughness:0.4, metalness:0.6 });
 
   const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.62, 0.75, 6, 14), mat);
   body.position.y = 1.55; body.castShadow = true; g.add(body);
 
-  const chest = new THREE.Mesh(new THREE.CircleGeometry(0.2, 16), new THREE.MeshBasicMaterial({ color:0x9ff5ff }));
+  const chest = new THREE.Mesh(new THREE.CircleGeometry(0.2, 16), new THREE.MeshBasicMaterial({ color: opts.chest ?? 0x9ff5ff }));
   chest.position.set(0, 1.7, 0.66); g.add(chest);
 
   const head = new THREE.Group(); head.position.y = 2.75;
-  const skull = new THREE.Mesh(new THREE.SphereGeometry(0.55, 20, 16), mat); skull.castShadow = true; head.add(skull);
-  const visor = new THREE.Mesh(new THREE.SphereGeometry(0.46, 20, 12, -0.9, 1.8, 1.1, 1.0), new THREE.MeshBasicMaterial({ color:0x8ff7ff }));
+  const skull = new THREE.Mesh(new THREE.SphereGeometry(0.55, 20, 16), headMat); skull.castShadow = true; head.add(skull);
+  const visor = new THREE.Mesh(new THREE.SphereGeometry(0.46, 20, 12, -0.9, 1.8, 1.1, 1.0), new THREE.MeshBasicMaterial({ color: opts.visor ?? 0x8ff7ff }));
   visor.position.z = 0.1; head.add(visor);
   const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.55), dark);
   antenna.position.y = 0.65; head.add(antenna);
@@ -283,27 +284,106 @@ function makeRobot(color, name, scale=1, labelColor="#ffffff") {
   scene.add(g);
   return g;
 }
+/* ---- outfit shop: each council AI designed its own look (2026-10-02 council round) ---- */
+const BRASS = 0xc9a227, COPPER = 0xb87333;
+function addGlasses(bot) { /* round tortoiseshell glasses (Claude) */
+  const m = new THREE.MeshStandardMaterial({ color:0x4a2c14, roughness:0.5 });
+  [-0.2, 0.2].forEach(x => { const r = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.025, 8, 20), m); r.position.set(x, 0.06, 0.5); bot.userData.head.add(r); });
+  const bridge = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.03, 0.03), m); bridge.position.set(0, 0.08, 0.52); bot.userData.head.add(bridge);
+}
+function addMonocle(bot, matColor=BRASS, lens=null) { /* magnifier / HUD monocle (Mistral, DeepSeek) */
+  const m = new THREE.MeshStandardMaterial({ color: matColor, roughness:0.3, metalness:0.8 });
+  const r = new THREE.Mesh(new THREE.TorusGeometry(0.19, 0.03, 8, 22), m); r.position.set(0.22, 0.06, 0.5); bot.userData.head.add(r);
+  if (lens) { const disc = new THREE.Mesh(new THREE.CircleGeometry(0.16, 20), new THREE.MeshBasicMaterial({ color: lens, transparent:true, opacity:0.35, side:THREE.DoubleSide })); disc.position.set(0.22, 0.06, 0.51); bot.userData.head.add(disc); }
+  const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.3), m); handle.position.set(0.3, -0.16, 0.5); handle.rotation.z = 0.5; bot.userData.head.add(handle);
+}
+function addForeheadLens(bot) { /* Grok's TruthAnchor lens */
+  const lens = new THREE.Mesh(new THREE.SphereGeometry(0.1, 10, 10), new THREE.MeshBasicMaterial({ color:0x9fdcff }));
+  lens.position.set(0, 0.3, 0.47); bot.userData.head.add(lens);
+}
+function addHalo(bot, color=0x67e8f9) { /* Gemini's floating halo ring */
+  const halo = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.04, 8, 26), new THREE.MeshBasicMaterial({ color }));
+  halo.rotation.x = Math.PI/2; halo.position.y = 3.62; bot.add(halo); bot.userData.halo = halo;
+}
+function addStylus(bot) { /* Claude's red-pen stylus, clipped to the chest */
+  const s = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.42), new THREE.MeshBasicMaterial({ color:0xe5322d }));
+  s.position.set(0.34, 1.62, 0.58); s.rotation.z = 0.5; bot.add(s);
+}
+function addClipboard(bot) { /* ChatGPT's tablet, rides the right arm */
+  const board = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.48, 0.045), new THREE.MeshStandardMaterial({ color:0xd8dee9, roughness:0.4 }));
+  board.position.set(0, -0.98, 0.14); board.rotation.x = 0.35; bot.userData.armR.add(board);
+  const screen = new THREE.Mesh(new THREE.PlaneGeometry(0.28, 0.38), new THREE.MeshBasicMaterial({ color:0x8ff7ff }));
+  screen.position.set(0, 0, 0.026); board.add(screen);
+}
+function addToolProp(bot) { /* Runable's build tool (Atlas-styled placeholder until Runable picks) */
+  const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.34), new THREE.MeshStandardMaterial({ color:0x8a93a6, metalness:0.8, roughness:0.3 }));
+  grip.position.set(0, -0.95, 0.1); grip.rotation.x = 0.5; bot.userData.armR.add(grip);
+}
+function addBag(bot) { /* Base44's waxed-canvas messenger bag */
+  const bag = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.42, 0.2), new THREE.MeshStandardMaterial({ color:0x8a6d3b, roughness:0.85 }));
+  bag.position.set(-0.78, 1.1, 0); bot.add(bag);
+}
+function addCompass(bot) { /* Base44's floating copper compass hologram */
+  const grp = new THREE.Group(); grp.position.set(1.0, 3.15, 0);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.028, 8, 22), new THREE.MeshBasicMaterial({ color: COPPER })); grp.add(ring);
+  const needle = new THREE.Mesh(new THREE.ConeGeometry(0.06, 0.3, 8), new THREE.MeshBasicMaterial({ color:0xffd9a0 }));
+  needle.rotation.z = -0.7; grp.add(needle);
+  bot.add(grp); bot.userData.compass = grp;
+}
+function addCitationCard(bot) { /* Perplexity's projected citation card */
+  const card = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.22), new THREE.MeshBasicMaterial({ color:0xffffff, transparent:true, opacity:0.9, side:THREE.DoubleSide }));
+  card.position.set(0.62, 0.18, 0.42); card.rotation.y = 0.5; bot.userData.head.add(card);
+}
+function addCape(bot, color=0x8a6d1f) { /* Atlas's CEO cape */
+  const cape = new THREE.Mesh(new THREE.BoxGeometry(0.95, 1.35, 0.05), new THREE.MeshStandardMaterial({ color, roughness:0.7 }));
+  cape.position.set(0, 1.45, -0.56); cape.rotation.x = 0.14; bot.add(cape);
+}
+function addCircuitRings(bot) { /* DeepSeek's glowing cyan circuit traces */
+  [1.38, 1.78].forEach(y => { const r = new THREE.Mesh(new THREE.TorusGeometry(0.68, 0.022, 6, 30), new THREE.MeshBasicMaterial({ color:0x22d3ee })); r.rotation.x = Math.PI/2; r.position.y = y; bot.add(r); });
+}
 /* walking follow: waypoint loop */
 function walker(bot, waypoints, speed, phase=0) {
   return { bot, wps: waypoints, speed, seg: Math.floor(Math.random()*waypoints.length), t: Math.random(), phase };
 }
 const P = i => padPositions[i % padPositions.length].clone();
+/* each bot patrols the district it works in: district pads + a ring around the plaza */
+function districtPoints(dIdx) {
+  const d = DISTRICTS[dIdx]; const pts = [];
+  VENTURES.forEach((v, i) => { if (v.d === dIdx) pts.push(padPositions[i].clone()); });
+  for (let k = 0; k < 4; k++) { const a = k / 4 * Math.PI * 2 + dIdx * 0.9; pts.push(new THREE.Vector3(d.cx + Math.cos(a) * 12.5, 0, d.cz + Math.sin(a) * 12.5)); }
+  return pts;
+}
+const HQ = districtPoints(0), CC = districtPoints(1), CR = districtPoints(3), MM = districtPoints(4);
+const atlasBot = makeRobot(0xffd166, "ATLAS — CEO", 1.45, "#ffd166"); addCape(atlasBot);
+const gptBot = makeRobot(0x23272f, "ChatGPT", 1.15, "#e8f0ff", { limb: 0xb9c2d4 }); addClipboard(gptBot);
+const claudeBot = makeRobot(0xb56545, "Claude", 1.15, "#ffb59a", { headColor: 0xf3e5d3, limb: 0x7a4a2e }); addGlasses(claudeBot); addStylus(claudeBot);
+const grokBot = makeRobot(0xe8ecf4, "Grok", 1.15, "#ffffff", { limb: 0x9aa7bd }); addForeheadLens(grokBot);
+const pplxBot = makeRobot(0x2456c8, "Perplexity", 1.1, "#8ff5e6", { limb: 0x2b2f36, chest: 0xffb020 }); addCitationCard(pplxBot);
+const mistralBot = makeRobot(0x1d3fbf, "Mistral", 1.1, "#ffc38a", { limb: COPPER }); addMonocle(mistralBot);
+const geminiBot = makeRobot(0x10182e, "Gemini", 1.1, "#bcd4ff", { limb: 0x27386b }); addHalo(geminiBot);
+const dsBot = makeRobot(0x111318, "DeepSeek", 1.1, "#a8baff", { limb: 0x1f2733 }); addMonocle(dsBot, 0x22d3ee, 0x22d3ee); addCircuitRings(dsBot);
+const runableBot = makeRobot(0xa78bfa, "Runable", 1.1, "#dcc9ff"); addToolProp(runableBot);
+const base44Bot = makeRobot(0x151312, "Base44", 1.1, "#dcffc9", { visor: 0xffb84d }); addBag(base44Bot); addCompass(base44Bot);
 const council = [
-  walker(makeRobot(0xffd166, "ATLAS — CEO", 1.45, "#ffd166"), [P(0),P(3),P(8),P(13),P(19),P(24),P(1),P(6)], 3.4),
-  walker(makeRobot(0x23272f, "ChatGPT", 1.15, "#e8f0ff"), [P(20),P(21),P(22),P(5),P(4),P(0)], 2.6),
-  walker(makeRobot(0xd97757, "Claude", 1.15, "#ffb59a"), [P(19),P(20),P(24),P(25),P(26),P(2)], 2.4),
-  walker(makeRobot(0xe8ecf4, "Grok", 1.15, "#ffffff"), [P(8),P(9),P(10),P(11),P(12),P(3)], 3.0),
-  walker(makeRobot(0x20b8a6, "Perplexity", 1.1, "#8ff5e6"), [P(22),P(23),P(19),P(25),P(0)], 2.8),
-  walker(makeRobot(0xff7000, "Mistral", 1.1, "#ffc38a"), [P(13),P(14),P(15),P(16),P(17),P(7)], 2.5),
-  walker(makeRobot(0x6f9dff, "Gemini", 1.1, "#bcd4ff"), [P(4),P(5),P(6),P(7),P(1)], 2.7),
-  walker(makeRobot(0x4d6bfe, "DeepSeek", 1.1, "#a8baff"), [P(24),P(25),P(26),P(20),P(2)], 2.3),
-  walker(makeRobot(0xa78bfa, "Runable", 1.1, "#dcc9ff"), [P(5),P(6),P(13),P(19),P(21),P(8)], 2.9),
-  walker(makeRobot(0xb6f09c, "Base44", 1.1, "#dcffc9"), [P(21),P(19),P(20),P(3),P(0)], 2.4),
+  walker(atlasBot, HQ, 3.4),
+  walker(gptBot, HQ, 2.6),
+  walker(claudeBot, HQ, 2.4),
+  walker(grokBot, CC, 3.0),
+  walker(pplxBot, CC, 2.8),
+  walker(mistralBot, CR, 2.5),
+  walker(geminiBot, HQ, 2.7),
+  walker(dsBot, HQ, 2.3),
+  walker(runableBot, CC, 2.9),
+  walker(base44Bot, MM, 2.4),
 ];
 /* ChatGPT's signature: a floating "?" hologram while it investigates (its own design) */
 const qSprite = textSprite("?", "#7ef0c1", 0.8);
 qSprite.position.y = 5.1; qSprite.visible = false;
 council[1].bot.add(qSprite); council[1].q = qSprite;
+/* Gemini independently asked for a "?" too — its neon-cyan halo ring carries it */
+const qGem = textSprite("?", "#67e8f9", 0.7);
+qGem.position.y = 5.0; qGem.visible = false;
+council[6].bot.add(qGem); council[6].q = qGem;
 /* heartbeat: every building pulses at its activity rate (ChatGPT's design) */
 VENTURES.forEach(v => { if (v._b) { v._b.material.emissive = new THREE.Color(0x1d3a7a); v._b.material.emissiveIntensity = 0.25; } });
 /* crew bots parked at pads, working */
@@ -410,6 +490,9 @@ function animate(){
   });
   VENTURES.forEach(v => { if (v._beacon) { const s = 1 + Math.sin(t*2.4 + v._beacon.userData.pulse)*0.3; v._beacon.scale.setScalar(s); } if (v._scaf) v._scaf.rotation.y += v._scaf.userData.spin * 0.016; if (v._b) { const rate = v.s === "live" ? 2.2 : v.s === "hq" ? 3 : v.s === "virtual" ? 1.2 : 0.6; v._b.material.emissiveIntensity = 0.18 + (Math.sin(t*rate + v.h) * 0.5 + 0.5) * 0.3; } });
   if (council[1].q) council[1].q.visible = Math.sin(t * 0.45) > 0.55; /* ChatGPT investigates in bursts */
+  if (council[6].q) council[6].q.visible = Math.sin(t * 0.45 + 2.4) > 0.6; /* Gemini's halo "?" flickers offset */
+  geminiBot.userData.halo.rotation.z = t * 1.2; /* halo slowly spins */
+  base44Bot.userData.compass.rotation.y = t * 1.6; base44Bot.userData.compass.position.y = 3.15 + Math.sin(t * 2.1) * 0.08; /* compass bobs */
   holo.rotation.z = t * 0.4; holo2.rotation.z = -t * 0.55;
   hqGlow.intensity = 55 + Math.sin(t*1.8) * 12;
 
