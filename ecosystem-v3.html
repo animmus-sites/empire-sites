@@ -40,7 +40,7 @@
   <div class="chips">
     <span class="chip gold">Verified revenue: <b>$0</b></span>
     <span class="chip">Ventures: <b id="ventureCount">27</b></span>
-    <span class="chip">Bots on shift: <b>16 council + crew</b></span>
+    <span class="chip">Bots on shift: <b>21 council + crew</b></span>
   </div>
 </div>
 
@@ -356,6 +356,45 @@ function addCape(bot, color=0x8a6d1f) { /* Atlas's CEO cape */
 function addCircuitRings(bot) { /* DeepSeek's glowing cyan circuit traces */
   [1.38, 1.78].forEach(y => { const r = new THREE.Mesh(new THREE.TorusGeometry(0.68, 0.022, 6, 30), new THREE.MeshBasicMaterial({ color:0x22d3ee })); r.rotation.x = Math.PI/2; r.position.y = y; bot.add(r); });
 }
+function addVinyl(bot) { /* Suno's floating vinyl-disc halo (Producer) */
+  const grp = new THREE.Group(); grp.position.y = 3.66;
+  const disc = new THREE.Mesh(new THREE.CylinderGeometry(0.46, 0.46, 0.05, 26), new THREE.MeshStandardMaterial({ color:0x17141f, roughness:0.3, metalness:0.6 }));
+  grp.add(disc);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.02, 6, 26), new THREE.MeshBasicMaterial({ color:0xffd166 }));
+  ring.rotation.x = Math.PI/2; ring.position.y = 0.035; grp.add(ring);
+  const hub = new THREE.Mesh(new THREE.SphereGeometry(0.07, 10, 10), new THREE.MeshBasicMaterial({ color:0xffd166 }));
+  hub.position.y = 0.05; grp.add(hub);
+  grp.rotation.z = 0.18; bot.add(grp); bot.userData.vinyl = grp;
+}
+function addOrbs(bot) { /* Poe's model-switchboard orbiting orbs */
+  const grp = new THREE.Group(); grp.position.set(0.95, 3.25, 0);
+  [0xff5d5d, 0x2dd4bf, 0xa78bfa, 0xfbbf24, 0x60a5fa].forEach((c, i) => { const a = i / 5 * Math.PI * 2; const s = new THREE.Mesh(new THREE.SphereGeometry(0.075, 10, 10), new THREE.MeshBasicMaterial({ color: c })); s.position.set(Math.cos(a) * 0.3, Math.sin(a) * 0.18, Math.sin(a * 2) * 0.12); grp.add(s); });
+  bot.add(grp); bot.userData.orbs = grp;
+}
+function addPalette(bot) { /* Leonardo's paint palette (Art Director) */
+  const grp = new THREE.Group();
+  const pal = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.05, 20), new THREE.MeshStandardMaterial({ color:0x8a5a2b, roughness:0.8 }));
+  grp.add(pal);
+  [0xe5322d, 0xffd166, 0x2dd4bf, 0x2456c8, 0xd946ef].forEach((c, i) => { const a = i / 5 * Math.PI * 2; const d = new THREE.Mesh(new THREE.SphereGeometry(0.055, 8, 8), new THREE.MeshBasicMaterial({ color: c })); d.position.set(Math.cos(a) * 0.18, 0.045, Math.sin(a) * 0.18); grp.add(d); });
+  grp.position.set(0, -1.0, 0.18); grp.rotation.x = 0.3;
+  bot.userData.armL.add(grp);
+}
+function addLayoutFrame(bot) { /* Canva's floating layout frame (Layout Desk) */
+  const grp = new THREE.Group(); grp.position.set(1.0, 3.2, 0);
+  const m = new THREE.MeshBasicMaterial({ color:0xffffff });
+  const w = 0.52, h = 0.4, t = 0.035;
+  [[0, h/2, w, t], [0, -h/2, w, t], [-w/2, 0, t, h], [w/2, 0, t, h]].forEach(p => { const b = new THREE.Mesh(new THREE.BoxGeometry(p[2], p[3], 0.03), m); b.position.set(p[0], p[1], 0); grp.add(b); });
+  const inner = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.22), new THREE.MeshBasicMaterial({ color:0x00c4cc, transparent:true, opacity:0.5, side:THREE.DoubleSide }));
+  grp.add(inner);
+  bot.add(grp); bot.userData.frame = grp;
+}
+function addBookHolo(bot) { /* Z.ai's open-book hologram (Deep Reader) */
+  const grp = new THREE.Group(); grp.position.set(0.95, 3.2, 0);
+  const m = new THREE.MeshBasicMaterial({ color:0x7dd3fc, transparent:true, opacity:0.55, side:THREE.DoubleSide });
+  const left = new THREE.Mesh(new THREE.PlaneGeometry(0.26, 0.34), m); left.rotation.y = 0.55; left.position.x = -0.12; grp.add(left);
+  const right = new THREE.Mesh(new THREE.PlaneGeometry(0.26, 0.34), m); right.rotation.y = -0.55; right.position.x = 0.12; grp.add(right);
+  bot.add(grp); bot.userData.book = grp;
+}
 /* walking follow: waypoint loop */
 function walker(bot, waypoints, speed, phase=0) {
   return { bot, wps: waypoints, speed, seg: Math.floor(Math.random()*waypoints.length), t: Math.random(), phase };
@@ -385,6 +424,11 @@ const manusBot = makeRobot(0xe8e3d9, "Manus", 1.15, "#fff6e8", { limb: 0x4a3f35,
 const kimiBot = makeRobot(0x0b0e1a, "Kimi", 1.15, "#cfe4ff", { limb: 0x22304a, visor: 0x7dd3fc }); addCitationCard(kimiBot);
 const nlmBot = makeRobot(0x8ab4f8, "NotebookLM", 1.1, "#dceaff", { limb: 0x2b4a8f }); addClipboard(nlmBot);
 const ideoBot = makeRobot(0xd946ef, "Ideogram", 1.1, "#ffd7fb", { limb: 0x4a1259 }); addStylus(ideoBot);
+const sunoBot = makeRobot(0x5b21b6, "Suno", 1.1, "#e9d5ff", { limb: 0xd4af37 }); addVinyl(sunoBot);
+const poeBot = makeRobot(0xf3ead8, "Poe", 1.1, "#f5efe0", { limb: 0x1a1a22 }); addOrbs(poeBot); addClipboard(poeBot);
+const leoBot = makeRobot(0x0f766e, "Leonardo", 1.1, "#a7f3ea", { limb: 0xc98f2d }); addPalette(leoBot);
+const canvaBot = makeRobot(0x00c4cc, "Canva", 1.1, "#d8fbff", { headColor: 0x8b3dff, limb: 0xf2f2f2 }); addLayoutFrame(canvaBot);
+const zaiBot = makeRobot(0x0a1633, "Z.ai", 1.1, "#bfe9ff", { limb: 0x22d3ee }); addBookHolo(zaiBot); addCircuitRings(zaiBot);
 const council = [
   walker(atlasBot, HQ, 3.4),
   walker(gptBot, HQ, 2.6),
@@ -402,6 +446,11 @@ const council = [
   walker(kimiBot, HQ, 2.1),
   walker(nlmBot, CC, 2.4),
   walker(ideoBot, CC, 2.7),
+  walker(sunoBot, CC, 2.8),
+  walker(poeBot, HQ, 2.3),
+  walker(leoBot, CC, 2.5),
+  walker(canvaBot, CR, 2.6),
+  walker(zaiBot, HQ, 2.2),
 ];
 /* ChatGPT's signature: a floating "?" hologram while it investigates (its own design) */
 const qSprite = textSprite("?", "#7ef0c1", 0.8);
