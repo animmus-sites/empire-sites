@@ -3,102 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AISight — What does ChatGPT say about your business?</title>
-<meta name="description" content="Your customers are asking AI instead of Google. Get your visibility score, the 5 fixes that matter most, and the exact snippets to paste — $79 once.">
+<title>PolicyPack — Own your privacy policy. Stop renting it.</title>
+<meta name="description" content="Answer 6 questions, get a privacy policy, Terms of Service, and cookie policy you can download and keep — one payment, no subscription.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0b0714; --bg2:#120c20; --card:#150e26; --line:#2b1f45;
-  --ink:#f6f2fd; --muted:#b3a8cf; --faint:#7d7099;
-  --vio:#a78bfa; --vio-deep:#7c3aed; --vio-soft:#cdb4ff;
-  --mint:#6ee7b7;
+  --bg:#f7f4ec; --bg2:#efe9da; --card:#fffdf7; --line:#ddd3bd;
+  --ink:#1e2a1f; --muted:#5a6552; --faint:#8a917f;
+  --green:#1e6b3a; --green-deep:#14522b; --green-soft:#e3f0e6;
+  --gold:#b07d2b;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
-h1,h2,h3,.display{font-family:"Sora",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.12;letter-spacing:-.02em}
-::selection{background:var(--vio);color:#160a2e}
-.site-header{position:sticky;top:0;z-index:50;background:rgba(11,7,20,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+h1,h2,h3,.display{font-family:"Fraunces",Georgia,"Times New Roman",serif;line-height:1.14;letter-spacing:-.01em;font-weight:700}
+::selection{background:var(--green);color:#fff}
+.site-header{position:sticky;top:0;z-index:50;background:rgba(247,244,236,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .site-header .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
-.wordmark{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:"Sora",sans-serif;font-weight:800;font-size:1.25rem}
-.wordmark em{font-style:normal;color:var(--vio)}
-.nav-cta{display:inline-block;background:var(--vio);color:#160a2e;font-weight:700;text-decoration:none;padding:10px 20px;border-radius:10px;font-size:.95rem;transition:transform .15s ease,box-shadow .15s ease}
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(167,139,250,.4)}
+.wordmark{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:"Fraunces",Georgia,serif;font-weight:700;font-size:1.3rem}
+.wordmark em{font-style:normal;color:var(--green)}
+.nav-cta{display:inline-block;background:var(--green);color:#fff;font-weight:600;text-decoration:none;padding:10px 20px;border-radius:10px;font-size:.95rem;transition:transform .15s ease,box-shadow .15s ease}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(30,107,58,.3)}
 .hero{position:relative;padding:96px 0 72px;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:-20% -10% auto;height:640px;background:radial-gradient(640px 340px at 50% 0%,rgba(124,58,237,.28),transparent 70%);pointer-events:none}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto;height:640px;background:radial-gradient(600px 320px at 50% 0%,rgba(30,107,58,.12),transparent 70%);pointer-events:none}
 .hero-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--vio);border:1px solid var(--line);background:var(--bg2);padding:7px 14px;border-radius:999px;margin-bottom:24px}
-.hero h1{font-size:clamp(2.5rem,5.4vw,4rem);font-weight:800;margin-bottom:20px}
-.hero h1 .hl{color:var(--vio)}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--green);border:1px solid var(--line);background:var(--card);padding:7px 14px;border-radius:999px;margin-bottom:24px}
+.hero h1{font-size:clamp(2.5rem,5.2vw,3.9rem);margin-bottom:20px}
+.hero h1 .hl{color:var(--green);font-style:italic}
 .lede{font-size:1.18rem;color:var(--muted);max-width:34rem;margin-bottom:32px}
 .cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:16px}
-.btn{display:inline-block;background:var(--vio);color:#160a2e;font-weight:700;font-size:1.05rem;text-decoration:none;padding:16px 30px;border-radius:12px;transition:transform .15s ease,box-shadow .15s ease}
-.btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(167,139,250,.45)}
+.btn{display:inline-block;background:var(--green);color:#fff;font-weight:600;font-size:1.05rem;text-decoration:none;padding:16px 30px;border-radius:12px;transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(30,107,58,.35);background:var(--green-deep)}
 .risk{font-size:.92rem;color:var(--faint);max-width:34rem}
-.hero-visual{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 24px 64px rgba(0,0,0,.5)}
-.chat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
-.chat .who{font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
-.chat .bubble{background:rgba(167,139,250,.1);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:.95rem;margin-bottom:14px}
-.chat .bubble.ai{border-left:3px solid var(--vio)}
-.fix-row{display:flex;gap:12px;align-items:flex-start;border-top:1px solid var(--line);padding:12px 0;font-size:.9rem}
-.fix-row:last-child{border-bottom:1px solid var(--line)}
-.fix-row .n{flex:none;width:26px;height:26px;border-radius:8px;background:rgba(167,139,250,.15);color:var(--vio);font-weight:700;font-size:.8rem;display:flex;align-items:center;justify-content:center}
-.fix-row .e{margin-left:auto;flex:none;font-size:.75rem;color:var(--mint);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
-.honest-box{margin-top:16px;background:rgba(110,231,183,.06);border:1px dashed var(--mint);border-radius:12px;padding:16px 18px;font-size:.88rem;color:var(--muted)}
-.honest-box strong{color:var(--mint)}
+.hero-visual{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 24px 64px rgba(30,42,31,.12)}
+.doc{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.doc-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:var(--green-soft);border-bottom:1px solid var(--line);font-size:.82rem;font-weight:600;color:var(--green-deep)}
+.doc-body{padding:22px}
+.doc-body .dl{font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:14px 0 4px}
+.doc-body .dl:first-child{margin-top:0}
+.doc-body h4{font-family:"Fraunces",Georgia,serif;font-size:1.05rem;margin-bottom:4px}
+.doc-body p{font-size:.88rem;color:var(--muted)}
+.juris{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.juris span{font-size:.76rem;font-weight:600;color:var(--green-deep);background:var(--green-soft);border:1px solid var(--line);border-radius:999px;padding:5px 12px}
 section.block{padding:80px 0}
-.kicker{font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--vio);margin-bottom:12px}
-.block h2{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:800;margin-bottom:14px}
+.kicker{font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:12px}
+.block h2{font-size:clamp(1.7rem,3.4vw,2.5rem);margin-bottom:14px}
 .block .sub{color:var(--muted);max-width:44rem;margin-bottom:44px;font-size:1.05rem}
-.proof{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:28px 32px;margin:0 0 8px;display:flex;gap:18px;align-items:flex-start}
-.proof .tick{flex:none;width:40px;height:40px;border-radius:12px;background:rgba(167,139,250,.12);display:flex;align-items:center;justify-content:center}
+.proof{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 32px;margin:0 0 8px;display:flex;gap:18px;align-items:flex-start}
+.proof .tick{flex:none;width:40px;height:40px;border-radius:12px;background:var(--green-soft);display:flex;align-items:center;justify-content:center}
 .proof p{color:var(--muted);font-size:1rem}
 .proof p strong{color:var(--ink)}
-.method{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
-.method span{font-size:.78rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--card);font-family:ui-monospace,Menlo,Consolas,monospace}
+.stats{display:flex;flex-wrap:wrap;gap:26px;margin-top:18px}
+.stats div b{font-family:"Fraunces",Georgia,serif;font-size:1.6rem;color:var(--green-deep);display:block}
+.stats div span{font-size:.82rem;color:var(--faint)}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px 28px;transition:transform .18s ease,border-color .18s ease}
-.card:hover{transform:translateY(-4px);border-color:var(--vio-deep)}
-.card .icon{width:48px;height:48px;border-radius:14px;background:rgba(167,139,250,.12);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px 28px;transition:transform .18s ease,box-shadow .18s ease}
+.card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(30,42,31,.1)}
+.card .icon{width:48px;height:48px;border-radius:14px;background:var(--green-soft);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
 .card h3{font-size:1.25rem;margin-bottom:10px}
 .card p{color:var(--muted);font-size:.98rem}
 .how{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:step}
 .step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px 28px}
-.step::before{counter-increment:step;content:counter(step);font-family:"Sora",sans-serif;font-weight:800;font-size:2.6rem;color:var(--vio);opacity:.9;display:block;margin-bottom:14px}
+.step::before{counter-increment:step;content:counter(step);font-family:"Fraunces",Georgia,serif;font-weight:700;font-size:2.6rem;color:var(--green);opacity:.85;display:block;margin-bottom:14px}
 .step h3{font-size:1.15rem;margin-bottom:8px}
 .step p{color:var(--muted);font-size:.97rem}
-.tiers{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;align-items:stretch;max-width:860px}
-.tier{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:38px 34px;display:flex;flex-direction:column}
-.tier.featured{border-color:var(--vio);box-shadow:0 24px 64px rgba(124,58,237,.18)}
-.tier .plan{font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.82rem;color:var(--vio);margin-bottom:10px}
-.tier .price{font-family:"Sora",sans-serif;font-size:2.8rem;font-weight:800;margin-bottom:6px}
-.tier .price small{font-size:1rem;color:var(--muted);font-weight:500}
-.tier .blurb{color:var(--muted);font-size:.95rem;margin-bottom:18px}
-.feat{list-style:none;margin:0 0 26px;flex:1}
-.feat li{padding:8px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:.95rem;display:flex;gap:10px;align-items:flex-start}
-.feat li::before{content:"✓";color:var(--vio);font-weight:700;flex:none}
-.tier .btn{font-size:.98rem;padding:14px 22px;text-align:center}
-.money-logic{margin-top:28px;color:var(--muted);font-size:.98rem;border-left:3px solid var(--vio);padding-left:18px;max-width:640px}
+.pricing-grid{display:grid;grid-template-columns:1fr;gap:22px;max-width:640px}
+.price-card{background:var(--card);border:2px solid var(--green);border-radius:22px;padding:44px 40px;box-shadow:0 24px 64px rgba(30,107,58,.14)}
+.price-card .plan{font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.82rem;color:var(--green);margin-bottom:10px}
+.price{font-family:"Fraunces",Georgia,serif;font-size:3.2rem;font-weight:700;margin-bottom:6px}
+.price small{font-size:1.1rem;color:var(--muted);font-weight:400;font-family:"Inter",sans-serif}
+.feat{list-style:none;margin:24px 0 30px}
+.feat li{padding:9px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:.98rem;display:flex;gap:10px;align-items:flex-start}
+.feat li::before{content:"✓";color:var(--green);font-weight:700;flex:none}
+.money-logic{margin-top:22px;color:var(--muted);font-size:.98rem;border-left:3px solid var(--green);padding-left:18px}
 .faq-list{max-width:760px}
 details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
-summary{cursor:pointer;padding:20px 24px;font-weight:600;font-size:1.02rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px}
+summary{cursor:pointer;padding:20px 24px;font-weight:600;font-size:1.02rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;color:var(--ink)}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-size:1.5rem;color:var(--vio);flex:none;transition:transform .2s}
+summary::after{content:"+";font-size:1.5rem;color:var(--green);flex:none;transition:transform .2s}
 details[open] summary::after{transform:rotate(45deg)}
 details .a{padding:0 24px 22px;color:var(--muted);font-size:.98rem}
 footer{border-top:1px solid var(--line);padding:40px 0;background:var(--bg2)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
 footer p{color:var(--faint);font-size:.88rem}
-@media (max-width:900px){.tiers{grid-template-columns:1fr;max-width:560px}}
 @media (max-width:860px){
   .hero-grid{grid-template-columns:1fr;gap:40px}
   .hero{padding:64px 0 52px}
   .cards,.steps{grid-template-columns:1fr}
   section.block{padding:56px 0}
+  .price-card{padding:34px 26px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
@@ -106,11 +103,11 @@ footer p{color:var(--faint);font-size:.88rem}
 <body>
 <header class="site-header">
   <div class="wrap">
-    <a class="wordmark" href="#top" aria-label="AISight home">
-      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="13" fill="none" stroke="#a78bfa" stroke-width="3"/><circle cx="16" cy="16" r="6" fill="#a78bfa"/><circle cx="18.5" cy="13.5" r="2" fill="#0b0714"/></svg>
-      AI<em>Sight</em>
+    <a class="wordmark" href="#top" aria-label="PolicyPack home">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="3" width="24" height="26" rx="3" fill="#1e6b3a"/><path d="M10 11h12M10 15h12M10 19h8" stroke="#f7f4ec" stroke-width="2.2" stroke-linecap="round"/></svg>
+      Policy<em>Pack</em>
     </a>
-    <a class="nav-cta" href="#buy">Audit my site — $79</a>
+    <a class="nav-cta" href="#buy">Get my policy pack</a>
   </div>
 </header>
 
@@ -118,23 +115,31 @@ footer p{color:var(--faint);font-size:.88rem}
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="eyebrow">AI visibility audit</span>
-        <h1>What does <span class="hl">ChatGPT</span> say about your business?</h1>
-        <p class="lede">Your customers are asking AI instead of Google. Get your visibility score, the 5 fixes that matter most, and the exact snippets to paste — $79 once.</p>
+        <span class="eyebrow">One-time legal-doc generator</span>
+        <h1>Own your privacy policy. <span class="hl">Stop renting it.</span></h1>
+        <p class="lede">Answer 6 questions, get a privacy policy, Terms of Service, and cookie policy you can download and keep — one payment, no subscription.</p>
         <div class="cta-row">
-          <a class="btn" href="#buy">Audit my site — $79</a>
+          <a class="btn" href="#buy">Get my policy pack — $29</a>
         </div>
-        <p class="risk">You'll know exactly which 5 fixes you're getting and how long each takes before you spend a Saturday on them — 5-minute fixes first, 30-minute ones marked honestly.</p>
+        <p class="risk">Draft autosaves as you go — finish whenever you're ready. This is a document generator, not legal advice; if you want a lawyer's eyes on it, we'll be the first to say get them.</p>
       </div>
-      <div class="hero-visual" aria-label="Sample AISight report preview">
-        <div class="chat">
-          <p class="who">Customer asks</p>
-          <div class="bubble">"a plumber near me"</div>
-          <p class="who">Your AISight report</p>
-          <div class="fix-row"><span class="n">1</span><span>Add FAQ schema to your services page</span><span class="e">5 min</span></div>
-          <div class="fix-row"><span class="n">2</span><span>Publish an llms.txt for your business</span><span class="e">5 min</span></div>
-          <div class="fix-row"><span class="n">3</span><span>Fix sitemap + robots.txt coverage</span><span class="e">30 min</span></div>
-          <div class="honest-box"><strong>What we can't check:</strong> no tool can read AI engines' private outputs directly. This box marks precisely where our visibility ends — no fake certainty, no snake oil.</div>
+      <div class="hero-visual" aria-label="Sample PolicyPack document pack preview">
+        <div class="doc">
+          <div class="doc-bar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg> your-site.com — policy pack</div>
+          <div class="doc-body">
+            <p class="dl">Document 1 of 3</p>
+            <h4>Privacy Policy</h4>
+            <p>Clauses swapped for your jurisdiction, generated from your answers.</p>
+            <p class="dl">Document 2 of 3</p>
+            <h4>Terms of Service</h4>
+            <p>Plain-language terms matched to how your site actually operates.</p>
+            <p class="dl">Document 3 of 3</p>
+            <h4>Cookie Policy</h4>
+            <p>Cookie disclosures that match what you told us you use.</p>
+            <div class="juris" aria-label="Supported jurisdictions">
+              <span>US-General</span><span>California / CCPA</span><span>EU / GDPR</span><span>UK</span><span>Canada / PIPEDA</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -143,11 +148,13 @@ footer p{color:var(--faint);font-size:.88rem}
   <section class="block">
     <div class="wrap">
       <div class="proof">
-        <span class="tick" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span class="tick" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e6b3a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
         <div>
-          <p><strong>No invented case studies, no revenue claims borrowed from other vendors.</strong> Instead: publish the method. <strong>"Here's exactly what we scan and what we can't. Decide with that in front of you."</strong></p>
-          <div class="method" aria-label="Everything AISight scans">
-            <span>robots.txt</span><span>llms.txt</span><span>sitemap.xml</span><span>schema.org</span><span>FAQ signals</span><span>meta basics</span>
+          <p><strong>No testimonials — we haven't earned them.</strong> Instead: transparency as proof. <strong>"See the full questionnaire and a live preview before you pay a cent."</strong></p>
+          <div class="stats">
+            <div><b>~40</b><span>clause templates</span></div>
+            <div><b>5</b><span>jurisdictions</span></div>
+            <div><b>3</b><span>documents, yours to keep</span></div>
           </div>
         </div>
       </div>
@@ -156,24 +163,24 @@ footer p{color:var(--faint);font-size:.88rem}
 
   <section class="block" style="padding-top:24px">
     <div class="wrap">
-      <p class="kicker">Why AISight</p>
-      <h2>Know what the machines see</h2>
-      <p class="sub">Exactly 5 prioritized fixes. No 40-item to-do list you'll never finish.</p>
+      <p class="kicker">Why PolicyPack</p>
+      <h2>Documents you own, not a subscription you feed</h2>
+      <p class="sub">Six questions. Three documents. Yours forever.</p>
       <div class="cards">
         <article class="card">
-          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
-          <h3>Know what the machines see</h3>
-          <p>When someone asks ChatGPT or Gemini for "a plumber near me," your business either comes up or it doesn't. AISight checks what AI engines look for — robots.txt, llms.txt, sitemap, schema, FAQ signals, meta basics — and scores your readiness 0–100.</p>
+          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e6b3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg></span>
+          <h3>Your launch, unblocked tonight</h3>
+          <p>Privacy policies shouldn't be the thing that stalls your launch for a week. Fill in the questionnaire, watch the docs build in the live preview, and paste them onto your site tonight.</p>
         </article>
         <article class="card">
-          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>
-          <h3>Five fixes, ranked by impact</h3>
-          <p>Not a 40-item to-do list you'll never finish. Exactly 5 prioritized fixes, each with a copy-paste snippet and an honest effort estimate — 5 minutes or 30. Start at the top; they're ranked for a reason.</p>
+          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e6b3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 4 5.6 4 9s-1.5 6.4-4 9c-2.5-2.6-4-5.6-4-9s1.5-6.4 4-9z"/></svg></span>
+          <h3>Built for your jurisdiction</h3>
+          <p>Tick your jurisdiction — US-General, California/CCPA, EU/GDPR, UK, or Canada/PIPEDA — and the clause set swaps to match. Not sure what data you collect? The checkbox matrix walks you through it.</p>
         </article>
         <article class="card">
-          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
-          <h3>Built for owners, not SEO teams</h3>
-          <p>Every fix tells you what to paste and where. And where we can't see inside the engines, we say so in plain English — the "what we can't check" box means no fake certainty, no snake oil.</p>
+          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e6b3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg></span>
+          <h3>Yours to keep, forever</h3>
+          <p>Copy or download each doc as print-ready HTML or plain text. No account to maintain, no renewal to forget. Your draft autosaves while you work.</p>
         </article>
       </div>
     </div>
@@ -182,20 +189,20 @@ footer p{color:var(--faint);font-size:.88rem}
   <section class="block how">
     <div class="wrap">
       <p class="kicker">How it works</p>
-      <h2>Enter your domain. Get your five fixes.</h2>
-      <p class="sub">Plus the llms.txt generator that tells AI engines what your business actually is.</p>
+      <h2>Answer, watch, download</h2>
+      <p class="sub">The preview builds itself as you answer.</p>
       <div class="steps">
         <article class="step">
-          <h3>Enter your domain</h3>
-          <p>Enter your domain.</p>
+          <h3>Answer 6 questions</h3>
+          <p>Answer 6 questions — business name, site URL, what data you collect, cookies, contact email, jurisdiction.</p>
         </article>
         <article class="step">
-          <h3>Get your score + 5 fixes</h3>
-          <p>Get your 0–100 score and 5 ranked fixes, each with a snippet and time estimate.</p>
+          <h3>Watch the preview build itself</h3>
+          <p>Watch the preview build itself — every answer swaps in the right clauses, live.</p>
         </article>
         <article class="step">
-          <h3>Paste, or hand off</h3>
-          <p>Paste, or hand off — and use the included llms.txt generator to tell AI engines what your business actually is.</p>
+          <h3>Copy or download</h3>
+          <p>Copy or download — print-ready .html and plain .txt for each document. Put them on your site.</p>
         </article>
       </div>
     </div>
@@ -204,33 +211,22 @@ footer p{color:var(--faint);font-size:.88rem}
   <section class="block" id="buy">
     <div class="wrap">
       <p class="kicker">Pricing</p>
-      <h2>$79 once tells you what to fix.</h2>
-      <p class="sub">$149/mo is only for owners who want to watch the number move month over month.</p>
-      <div class="tiers">
-        <article class="tier featured">
-          <p class="plan">Audit</p>
-          <p class="price">$79<small> one time</small></p>
-          <p class="blurb">Full score, 5 prioritized fixes with snippets, effort estimates, llms.txt template generator.</p>
+      <h2>That's the whole price list.</h2>
+      <p class="sub">No tiers, no seat math, no "contact sales."</p>
+      <div class="pricing-grid">
+        <article class="price-card">
+          <p class="plan">Launch Pack</p>
+          <p class="price">$29 <small>one time</small></p>
           <ul class="feat">
-            <li>0–100 visibility score</li>
-            <li>Exactly 5 prioritized fixes</li>
-            <li>Copy-paste snippets for every fix</li>
-            <li>Honest effort estimates (5 or 30 min)</li>
-            <li>llms.txt template generator</li>
-            <li>"What we can't check" honesty box</li>
+            <li>All three documents (privacy policy, ToS, cookie policy)</li>
+            <li>All five jurisdictions</li>
+            <li>Live preview</li>
+            <li>HTML + TXT downloads</li>
+            <li>Draft autosave</li>
+            <li>One payment. It's yours.</li>
           </ul>
-          <a class="btn" href="#buy">Audit my site — $79</a>
-        </article>
-        <article class="tier">
-          <p class="plan">Monitor</p>
-          <p class="price">$149<small>/mo</small></p>
-          <p class="blurb">Re-run the audit on a schedule and track your score over time. Cancel any time.</p>
-          <ul class="feat">
-            <li>Scheduled audit re-runs</li>
-            <li>Score tracking over time</li>
-            <li>Cancel any time</li>
-          </ul>
-          <a class="btn" href="#buy">Start monitoring — $149/mo</a>
+          <a class="btn" href="#buy">Get my policy pack — $29</a>
+          <p class="money-logic">$29 once beats $15 every month the moment you pass month two — and you keep the files either way.</p>
         </article>
       </div>
     </div>
@@ -240,19 +236,19 @@ footer p{color:var(--faint);font-size:.88rem}
     <div class="wrap">
       <p class="kicker">FAQ</p>
       <h2>Straight answers</h2>
-      <p class="sub">Including the honest limits of what any tool can see.</p>
+      <p class="sub">Including what this is not.</p>
       <div class="faq-list">
         <details>
-          <summary>Can you actually see what ChatGPT says about me?</summary>
-          <div class="a"><p>Not exactly — and that's the honest part. No tool can read AI engines' private outputs directly. AISight checks the public signals AI engines use to understand and cite your site — robots.txt, llms.txt, sitemap, schema, FAQ structure, meta — and the "what we can't check" box tells you precisely where our visibility ends.</p></div>
+          <summary>Is this legal advice?</summary>
+          <div class="a"><p>No, and we won't pretend it is. PolicyPack generates documents from your answers using clause templates for your jurisdiction. It's a real, complete starting point for typical founder needs — but no lawyer reviews your output, and for high-stakes or unusual situations you should talk to one.</p></div>
         </details>
         <details>
-          <summary>What if my site blocks the scan?</summary>
-          <div class="a"><p>If your robots.txt or site setup blocks access, the audit tells you which checks couldn't run instead of guessing a score — and a blocked robots.txt is itself a fix you'll see ranked. You'll never pay for an audit that couldn't see your site.</p></div>
+          <summary>How is this different from a subscription generator?</summary>
+          <div class="a"><p>Subscription services bundle things we don't: ongoing compliance updates and consent-management tooling. What we offer is different — a one-time, downloadable pack you own outright. If you want managed, always-updated compliance, a subscription is the right buy. If you want solid documents you keep, that's us.</p></div>
         </details>
         <details>
-          <summary>Can I cancel the monthly plan?</summary>
-          <div class="a"><p>Any time, through Stripe, no call. Your $79 one-time audit stays yours forever — the monthly plan is just for re-running and tracking.</p></div>
+          <summary>Can I regenerate or change my answers later?</summary>
+          <div class="a"><p>Yes. Your draft autosaves, and you can change any answer and regenerate the documents whenever you like before you download. Once downloaded, the files are yours to edit like any HTML or text file.</p></div>
         </details>
       </div>
     </div>
@@ -261,11 +257,11 @@ footer p{color:var(--faint);font-size:.88rem}
 
 <footer>
   <div class="wrap">
-    <a class="wordmark" href="#top" aria-label="AISight home">
-      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="13" fill="none" stroke="#a78bfa" stroke-width="3"/><circle cx="16" cy="16" r="6" fill="#a78bfa"/><circle cx="18.5" cy="13.5" r="2" fill="#0b0714"/></svg>
-      AI<em>Sight</em>
+    <a class="wordmark" href="#top" aria-label="PolicyPack home">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="3" width="24" height="26" rx="3" fill="#1e6b3a"/><path d="M10 11h12M10 15h12M10 19h8" stroke="#f7f4ec" stroke-width="2.2" stroke-linecap="round"/></svg>
+      Policy<em>Pack</em>
     </a>
-    <p>© 2026 AISight. Here's exactly what we scan and what we can't.</p>
+    <p>© 2026 PolicyPack. A document generator — not legal advice.</p>
   </div>
 </footer>
 </body>
