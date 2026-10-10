@@ -3,97 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ReviewRadar — Turn happy customers into 5-star reviews.</title>
-<meta name="description" content="The link, QR code, and text templates to ask every customer — plus a simple log so you finally know what your reviews are doing. $39/mo.">
+<title>LeakLens — Your site is leaking money. Find out where.</title>
+<meta name="description" content="Paste your URL, get a 0–100 score in seconds and the three fixes that matter most — free. Full report with every fix, $49.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0e0f14; --bg2:#14161d; --card:#171a22; --line:#262b38;
-  --ink:#f7f4ec; --muted:#b6b0a1; --faint:#7f7a6d;
-  --gold:#f2b705; --gold-deep:#d99a06; --gold-soft:#fbe3a1;
+  --bg:#060d16; --bg2:#0a141f; --card:#0d1826; --line:#1c2c40;
+  --ink:#f2f7fc; --muted:#a9bdd2; --faint:#6e8299;
+  --cyan:#38e1c6; --cyan-deep:#14b89e; --cyan-soft:#8ff5e2;
+  --warn:#ffb224;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
-h1,h2,h3,.display{font-family:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.12;letter-spacing:-.02em}
-::selection{background:var(--gold);color:#231a02}
-.site-header{position:sticky;top:0;z-index:50;background:rgba(14,15,20,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+h1,h2,h3,.display{font-family:"Space Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.12;letter-spacing:-.02em}
+::selection{background:var(--cyan);color:#04231c}
+.site-header{position:sticky;top:0;z-index:50;background:rgba(6,13,22,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .site-header .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
-.wordmark{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:1.25rem}
-.wordmark em{font-style:normal;color:var(--gold)}
-.nav-cta{display:inline-block;background:var(--gold);color:#231a02;font-weight:700;text-decoration:none;padding:10px 20px;border-radius:10px;font-size:.95rem;transition:transform .15s ease,box-shadow .15s ease}
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(242,183,5,.35)}
+.wordmark{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.25rem}
+.wordmark em{font-style:normal;color:var(--cyan)}
+.nav-cta{display:inline-block;background:var(--cyan);color:#04231c;font-weight:700;text-decoration:none;padding:10px 20px;border-radius:10px;font-size:.95rem;transition:transform .15s ease,box-shadow .15s ease}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(56,225,198,.35)}
 .hero{position:relative;padding:96px 0 72px;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:-20% -10% auto;height:640px;background:radial-gradient(600px 320px at 50% 0%,rgba(242,183,5,.12),transparent 70%);pointer-events:none}
+.hero::before{content:"";position:absolute;inset:0;background:
+  linear-gradient(rgba(56,225,198,.05) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(56,225,198,.05) 1px,transparent 1px);
+  background-size:44px 44px;mask-image:radial-gradient(700px 420px at 50% 0%,#000,transparent 75%);pointer-events:none}
 .hero-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);background:var(--bg2);padding:7px 14px;border-radius:999px;margin-bottom:24px}
-.hero h1{font-size:clamp(2.5rem,5.4vw,4rem);font-weight:800;margin-bottom:20px}
-.hero h1 .hl{color:var(--gold)}
-.stars{color:var(--gold);letter-spacing:.18em;font-size:1.1rem;margin-bottom:18px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid var(--line);background:var(--bg2);padding:7px 14px;border-radius:999px;margin-bottom:24px}
+.hero h1{font-size:clamp(2.5rem,5.4vw,4rem);font-weight:700;margin-bottom:20px}
+.hero h1 .hl{color:var(--cyan)}
 .lede{font-size:1.18rem;color:var(--muted);max-width:34rem;margin-bottom:32px}
 .cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:16px}
-.btn{display:inline-block;background:var(--gold);color:#231a02;font-weight:700;font-size:1.05rem;text-decoration:none;padding:16px 30px;border-radius:12px;transition:transform .15s ease,box-shadow .15s ease}
-.btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(242,183,5,.4)}
+.btn{display:inline-block;background:var(--cyan);color:#04231c;font-weight:700;font-size:1.05rem;text-decoration:none;padding:16px 30px;border-radius:12px;transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(56,225,198,.4)}
 .risk{font-size:.92rem;color:var(--faint);max-width:34rem}
 .hero-visual{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 24px 64px rgba(0,0,0,.5)}
-.toolkit{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
-.toolkit .row{display:flex;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
-.toolkit .row:first-of-type{border-top:none;padding-top:4px}
-.toolkit .thumb{flex:none;width:52px;height:52px;border-radius:12px;background:rgba(242,183,5,.1);display:flex;align-items:center;justify-content:center}
-.toolkit .t{font-weight:600;font-size:.95rem}
-.toolkit .d{font-size:.85rem;color:var(--muted)}
-.copybtn{margin-left:auto;flex:none;font-size:.78rem;font-weight:700;color:var(--gold);border:1px solid var(--line);border-radius:8px;padding:7px 12px;background:var(--bg2)}
-.sms{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:14px;font-size:.9rem;color:var(--muted)}
-.sms .n{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
-.sms .c{font-size:.78rem;color:var(--faint);margin-top:8px}
+.scan{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
+.scan-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.scan-url{font-size:.85rem;color:var(--faint);font-family:ui-monospace,Menlo,Consolas,monospace}
+.score-ring{width:92px;height:92px;border-radius:50%;background:conic-gradient(var(--cyan) 0 62%,#1c2c40 62% 100%);display:flex;align-items:center;justify-content:center;flex:none}
+.score-ring b{width:72px;height:72px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-family:"Space Grotesk",sans-serif;font-size:1.4rem;color:var(--cyan)}
+.finding{border-top:1px solid var(--line);padding:14px 0}
+.finding:last-child{border-bottom:1px solid var(--line)}
+.finding .t{font-weight:600;font-size:.95rem}
+.finding .d{font-size:.87rem;color:var(--muted)}
+.finding .tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);margin-bottom:4px}
 section.block{padding:80px 0}
-.kicker{font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
-.block h2{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:800;margin-bottom:14px}
+.kicker{font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+.block h2{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:700;margin-bottom:14px}
 .block .sub{color:var(--muted);max-width:44rem;margin-bottom:44px;font-size:1.05rem}
 .proof{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:28px 32px;margin:0 0 8px;display:flex;gap:18px;align-items:flex-start}
-.proof .tick{flex:none;width:40px;height:40px;border-radius:12px;background:rgba(242,183,5,.1);display:flex;align-items:center;justify-content:center}
+.proof .tick{flex:none;width:40px;height:40px;border-radius:12px;background:rgba(56,225,198,.1);display:flex;align-items:center;justify-content:center}
 .proof p{color:var(--muted);font-size:1rem}
 .proof p strong{color:var(--ink)}
+.method{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.method span{font-size:.78rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--card)}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px 28px;transition:transform .18s ease,border-color .18s ease}
-.card:hover{transform:translateY(-4px);border-color:var(--gold-deep)}
-.card .icon{width:48px;height:48px;border-radius:14px;background:rgba(242,183,5,.1);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.card:hover{transform:translateY(-4px);border-color:var(--cyan-deep)}
+.card .icon{width:48px;height:48px;border-radius:14px;background:rgba(56,225,198,.1);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
 .card h3{font-size:1.25rem;margin-bottom:10px}
 .card p{color:var(--muted);font-size:.98rem}
 .how{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:step}
 .step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px 28px}
-.step::before{counter-increment:step;content:counter(step);font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:2.6rem;color:var(--gold);opacity:.9;display:block;margin-bottom:14px}
+.step::before{counter-increment:step;content:counter(step);font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:2.6rem;color:var(--cyan);opacity:.9;display:block;margin-bottom:14px}
 .step h3{font-size:1.15rem;margin-bottom:8px}
 .step p{color:var(--muted);font-size:.97rem}
-.pricing-grid{display:grid;grid-template-columns:1fr;gap:22px;max-width:640px}
-.price-card{background:linear-gradient(180deg,#1d1a10,#171a22);border:1px solid var(--gold-deep);border-radius:22px;padding:44px 40px;box-shadow:0 24px 64px rgba(242,183,5,.1)}
-.price-card .plan{font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.82rem;color:var(--gold);margin-bottom:10px}
-.price{font-family:"Plus Jakarta Sans",sans-serif;font-size:3.2rem;font-weight:800;margin-bottom:6px}
-.price small{font-size:1.1rem;color:var(--muted);font-weight:600}
-.feat{list-style:none;margin:24px 0 30px}
-.feat li{padding:9px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:.98rem;display:flex;gap:10px;align-items:flex-start}
-.feat li::before{content:"✓";color:var(--gold);font-weight:700;flex:none}
-.money-logic{margin-top:22px;color:var(--muted);font-size:.98rem;border-left:3px solid var(--gold);padding-left:18px}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+.tier{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:36px 30px;display:flex;flex-direction:column}
+.tier.featured{border-color:var(--cyan);box-shadow:0 24px 64px rgba(56,225,198,.12);background:linear-gradient(180deg,#0e2231,#0d1826)}
+.tier .plan{font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.82rem;color:var(--cyan);margin-bottom:10px}
+.tier .price{font-family:"Space Grotesk",sans-serif;font-size:2.6rem;font-weight:700;margin-bottom:6px}
+.tier .price small{font-size:1rem;color:var(--muted);font-weight:500}
+.tier .blurb{color:var(--muted);font-size:.95rem;margin-bottom:18px}
+.feat{list-style:none;margin:0 0 26px;flex:1}
+.feat li{padding:8px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:.93rem;display:flex;gap:10px;align-items:flex-start}
+.feat li::before{content:"✓";color:var(--cyan);font-weight:700;flex:none}
+.tier .btn{font-size:.98rem;padding:14px 22px;text-align:center}
+.money-logic{margin-top:28px;color:var(--muted);font-size:.98rem;border-left:3px solid var(--cyan);padding-left:18px;max-width:640px}
 .faq-list{max-width:760px}
 details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
 summary{cursor:pointer;padding:20px 24px;font-weight:600;font-size:1.02rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-size:1.5rem;color:var(--gold);flex:none;transition:transform .2s}
+summary::after{content:"+";font-size:1.5rem;color:var(--cyan);flex:none;transition:transform .2s}
 details[open] summary::after{transform:rotate(45deg)}
 details .a{padding:0 24px 22px;color:var(--muted);font-size:.98rem}
 footer{border-top:1px solid var(--line);padding:40px 0;background:var(--bg2)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
 footer p{color:var(--faint);font-size:.88rem}
+@media (max-width:900px){.tiers{grid-template-columns:1fr;max-width:560px}}
 @media (max-width:860px){
   .hero-grid{grid-template-columns:1fr;gap:40px}
   .hero{padding:64px 0 52px}
   .cards,.steps{grid-template-columns:1fr}
   section.block{padding:56px 0}
-  .price-card{padding:34px 26px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
@@ -101,11 +109,11 @@ footer p{color:var(--faint);font-size:.88rem}
 <body>
 <header class="site-header">
   <div class="wrap">
-    <a class="wordmark" href="#top" aria-label="ReviewRadar home">
-      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3l3.7 7.6 8.3 1.2-6 5.8 1.4 8.3L16 21.9l-7.4 4 1.4-8.3-6-5.8 8.3-1.2z" fill="#f2b705"/></svg>
-      Review<em>Radar</em>
+    <a class="wordmark" href="#top" aria-label="LeakLens home">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="none" stroke="#38e1c6" stroke-width="3"/><circle cx="16" cy="16" r="5" fill="#38e1c6"/><path d="M16 3v4M16 25v4M3 16h4M25 16h4" stroke="#38e1c6" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Leak<em>Lens</em>
     </a>
-    <a class="nav-cta" href="#buy">Start asking — $39/mo</a>
+    <a class="nav-cta" href="#buy">Scan my site — free</a>
   </div>
 </header>
 
@@ -113,31 +121,34 @@ footer p{color:var(--faint);font-size:.88rem}
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <div class="stars" aria-label="Five stars">★★★★★</div>
-        <span class="eyebrow">Manual review toolkit</span>
-        <h1>Turn happy customers into <span class="hl">5-star reviews.</span></h1>
-        <p class="lede">The link, QR code, and text templates to ask every customer — plus a simple log so you finally know what your reviews are doing. $39/mo.</p>
+        <span class="eyebrow">10-check site diagnostic</span>
+        <h1>Your site is <span class="hl">leaking money.</span> Find out where.</h1>
+        <p class="lede">Paste your URL, get a 0–100 score in seconds and the three fixes that matter most — free. Full report with every fix, $49.</p>
         <div class="cta-row">
-          <a class="btn" href="#buy">Start asking — $39/mo</a>
+          <a class="btn" href="#buy">Scan my site — free</a>
         </div>
-        <p class="risk">The first ask takes about a minute — build your link, print the QR, send tonight's texts. Month-to-month; if it doesn't become a habit in 30 days, cancel and export your log on the way out.</p>
+        <p class="risk">The score and top 3 findings are free, forever, no signup. Only pay the $49 when the first three leaks convince you the other seven are worth seeing.</p>
       </div>
-      <div class="hero-visual" aria-label="Sample ReviewRadar toolkit preview">
-        <div class="toolkit">
-          <div class="row">
-            <span class="thumb" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f2b705" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.5.5l3-3a5 5 0 00-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 00-7.5-.5l-3 3a5 5 0 007 7l1.7-1.7"/></svg></span>
-            <div><p class="t">Your review link</p><p class="d">Click-counted short link, built in about a minute</p></div>
-            <span class="copybtn" aria-hidden="true">Copy</span>
+      <div class="hero-visual" aria-label="Sample LeakLens scan report preview">
+        <div class="scan">
+          <div class="scan-top">
+            <span class="scan-url">yoursite.com</span>
+            <span class="score-ring" role="img" aria-label="Sample score 62 out of 100"><b>62</b></span>
           </div>
-          <div class="row">
-            <span class="thumb" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f2b705" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M14 20h1M18 18h3v3h-3z"/></svg></span>
-            <div><p class="t">Your QR code</p><p class="d">Print it for the truck, the counter, the table</p></div>
-            <span class="copybtn" aria-hidden="true">Print</span>
+          <div class="finding">
+            <span class="tag">Costing you visitors</span>
+            <p class="t">Page weight: 4.1 MB</p>
+            <p class="d">Half your mobile visitors are gone before it loads.</p>
           </div>
-          <div class="sms">
-            <p class="n">SMS template</p>
-            <p>"Thanks for choosing us today! A quick review helps more than you know: [your link]"</p>
-            <p class="c">160 characters, carrier-clean — with a copy button.</p>
+          <div class="finding">
+            <span class="tag">Costing you clicks</span>
+            <p class="t">Missing meta description</p>
+            <p class="d">Search results show a blank snippet for your best page.</p>
+          </div>
+          <div class="finding">
+            <span class="tag">Costing you trust</span>
+            <p class="t">No contact signals found</p>
+            <p class="d">Visitors can't find a phone number or address in seconds.</p>
           </div>
         </div>
       </div>
@@ -147,32 +158,37 @@ footer p{color:var(--faint);font-size:.88rem}
   <section class="block">
     <div class="wrap">
       <div class="proof">
-        <span class="tick" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f2b705" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-        <p><strong>No testimonials yet — here's the working toolkit instead. Judge the flow, not our prose.</strong> No fabricated dentist or restaurant quotes — faking reviews is exactly what this product stands against. Practice what we preach: our own live click-counted review link sits on this page as visible proof the mechanism works.</p>
+        <span class="tick" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38e1c6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <div>
+          <p><strong>No invented clients.</strong> Instead: the scan is the proof. <strong>"Score a sample site free and judge the report quality yourself."</strong> The exact methodology is published below — no black box.</p>
+          <div class="method" aria-label="The 10 checks LeakLens runs">
+            <span>HTTPS</span><span>Mobile viewport</span><span>Title</span><span>Meta description</span><span>OG tags</span><span>H1</span><span>Alt coverage</span><span>Page weight</span><span>Contact signals</span><span>JSON-LD</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="block" style="padding-top:24px">
     <div class="wrap">
-      <p class="kicker">Why ReviewRadar</p>
-      <h2>Honest tools, no black box</h2>
-      <p class="sub">A manual toolkit by design: you ask a real customer, they write a real review.</p>
+      <p class="kicker">Why LeakLens</p>
+      <h2>Findings framed in dollars, not jargon</h2>
+      <p class="sub">A measurement, not advice. Ten concrete checks, the math behind every finding.</p>
       <div class="cards">
         <article class="card">
-          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f2b705" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
-          <h3>Ask while they're smiling</h3>
-          <p>The best time to ask for a review is right after you finish the job — not three days later by cold text. Generate your review link, show the QR code off your truck or counter, and paste a ready SMS or email template in 10 seconds.</p>
+          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38e1c6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span>
+          <h3>See the leaks in dollars</h3>
+          <p>"Missing alt attributes" means nothing to a busy owner. "This page is 4.1 MB — half your mobile visitors are gone before it loads" means something. Every finding frames what the leak is costing you.</p>
         </article>
         <article class="card">
-          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f2b705" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span>
-          <h3>Stop flying blind on reviews</h3>
-          <p>Right now your reviews are scattered: some on Google, some never written, a few you never saw. Keep a simple log — count, average, this month — and know whether the ask is actually working.</p>
+          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38e1c6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg></span>
+          <h3>Fixes you can actually paste</h3>
+          <p>Each finding ships with a copy-paste fix snippet. No agency retainer, no "we'll get back to you in two weeks." Copy, paste, done — or hand the printable report to whoever manages your site.</p>
         </article>
         <article class="card">
-          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f2b705" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
-          <h3>Honest tools, no black box</h3>
-          <p>No dashboards pretending to be magic. You get the link builder with click counting, QR codes, copy-button templates for SMS (160 characters, carrier-clean) and email, and a CSV you can export any time. Everything visible, nothing hidden.</p>
+          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38e1c6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          <h3>Start free, decide after</h3>
+          <p>The instant score and your top 3 findings cost nothing and need no signup. If the first three leaks look expensive, the full report tells you what the other seven are worth.</p>
         </article>
       </div>
     </div>
@@ -181,20 +197,20 @@ footer p{color:var(--faint);font-size:.88rem}
   <section class="block how">
     <div class="wrap">
       <p class="kicker">How it works</p>
-      <h2>The first ask takes about a minute</h2>
-      <p class="sub">Build your link, print the QR, send tonight's texts.</p>
+      <h2>From URL to answers in seconds</h2>
+      <p class="sub">No account, no credit card, no waiting.</p>
       <div class="steps">
         <article class="step">
-          <h3>Build your review link</h3>
-          <p>Build your Google review link — takes about a minute, with click counting on the short link.</p>
+          <h3>Paste your URL</h3>
+          <p>Paste your URL. No account, no credit card.</p>
         </article>
         <article class="step">
-          <h3>Ask with QR or template</h3>
-          <p>Ask with QR or template. Print the QR, or copy-paste the SMS or email template into your customer's message.</p>
+          <h3>Get your free score</h3>
+          <p>Get your score and top 3 findings free, instantly.</p>
         </article>
         <article class="step">
-          <h3>Log what happens</h3>
-          <p>Log what happens. Record reviews as they come in, watch your count, average, and this-month stats, and export to CSV whenever.</p>
+          <h3>Unlock the full report</h3>
+          <p>Unlock the full $49 report — all 10 checks, every fix snippet, printable for whoever fixes your site.</p>
         </article>
       </div>
     </div>
@@ -203,21 +219,43 @@ footer p{color:var(--faint);font-size:.88rem}
   <section class="block" id="buy">
     <div class="wrap">
       <p class="kicker">Pricing</p>
-      <h2>$39/mo is roughly one customer.</h2>
-      <p class="sub">Restaurants, dental chairs, and job sites all run on reviews — this pays for itself the first week it becomes habit.</p>
-      <div class="pricing-grid">
-        <article class="price-card">
-          <p class="plan">ReviewRadar</p>
-          <p class="price">$39<small>/month</small></p>
+      <h2>Start free. Pay when the leaks convince you.</h2>
+      <p class="sub">The money logic: the free scan shows you the leak. The $49 report shows you all ten, with fixes. $199/mo if leaks are your business.</p>
+      <div class="tiers">
+        <article class="tier">
+          <p class="plan">Free Scan</p>
+          <p class="price">$0</p>
+          <p class="blurb">Instant 0–100 score + your top 3 findings. No signup.</p>
           <ul class="feat">
-            <li>Review-URL builder with click tracking</li>
-            <li>QR code</li>
-            <li>SMS + email templates with copy buttons</li>
-            <li>Manual review log with stats (count, average, this month)</li>
-            <li>CSV export</li>
+            <li>Instant 0–100 score</li>
+            <li>Top 3 findings, dollar-framed</li>
+            <li>No signup, no card</li>
+          </ul>
+          <a class="btn" href="#buy">Scan my site — free</a>
+        </article>
+        <article class="tier featured">
+          <p class="plan">Full Report</p>
+          <p class="price">$49<small> one time</small></p>
+          <p class="blurb">All 10 checks, every fix, printable.</p>
+          <ul class="feat">
+            <li>All 10 checks (HTTPS, mobile viewport, title, meta description, OG tags, H1, alt coverage, page weight, contact signals, JSON-LD)</li>
+            <li>Dollar-framed findings</li>
+            <li>Copy-paste fix snippets</li>
+            <li>Printable report</li>
+          </ul>
+          <a class="btn" href="#buy">Get the full report — $49</a>
+        </article>
+        <article class="tier">
+          <p class="plan">Agency Plan</p>
+          <p class="price">$199<small>/mo</small></p>
+          <p class="blurb">Run client sites on repeat. Cancel any time.</p>
+          <ul class="feat">
+            <li>Full reports for client sites</li>
+            <li>Run scans on repeat</li>
+            <li>Keep every report generated</li>
             <li>Cancel any time</li>
           </ul>
-          <a class="btn" href="#buy">Start asking — $39/mo</a>
+          <a class="btn" href="#buy">Start agency plan — $199/mo</a>
         </article>
       </div>
     </div>
@@ -227,19 +265,19 @@ footer p{color:var(--faint);font-size:.88rem}
     <div class="wrap">
       <p class="kicker">FAQ</p>
       <h2>Straight answers</h2>
-      <p class="sub">Including what this deliberately does not do.</p>
+      <p class="sub">What it is, what it isn't, and what happens when things get weird.</p>
       <div class="faq-list">
         <details>
-          <summary>Does this post reviews for me automatically?</summary>
-          <div class="a"><p>No — and honestly, that's a feature. This is a manual toolkit by design: you ask a real customer, they write a real review. You get the link builder, QR code, templates, and a log to track results — no automation pretending to be you.</p></div>
+          <summary>What do I actually get?</summary>
+          <div class="a"><p>It's not advice at all — it's a measurement. LeakLens runs 10 concrete checks on your page and shows you the math behind every finding. The fix snippets are yours to paste or hand to your web person.</p></div>
         </details>
         <details>
-          <summary>What if my business isn't on Google Maps / my review link doesn't work?</summary>
-          <div class="a"><p>The URL builder walks you through constructing your review link from your Google Business profile. If your profile setup won't produce a working link, you'll see it immediately when you test the short link — nothing to pay for sight-unseen.</p></div>
+          <summary>What if my site blocks the scan?</summary>
+          <div class="a"><p>Some sites' robots rules or technical setups can prevent checks from running fully. If that happens, we'll tell you exactly which checks couldn't run rather than scoring you blind — you'll never pay $49 for a mystery report.</p></div>
         </details>
         <details>
-          <summary>Can I cancel?</summary>
-          <div class="a"><p>Any time, through Stripe — no phone call, no "retention specialist." Your review log exports to CSV first, so your history leaves with you.</p></div>
+          <summary>Can I cancel the agency plan?</summary>
+          <div class="a"><p>Any time. It's month-to-month through Stripe, and you keep every report you've already generated. No lock-in, no cancellation call.</p></div>
         </details>
       </div>
     </div>
@@ -248,11 +286,11 @@ footer p{color:var(--faint);font-size:.88rem}
 
 <footer>
   <div class="wrap">
-    <a class="wordmark" href="#top" aria-label="ReviewRadar home">
-      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3l3.7 7.6 8.3 1.2-6 5.8 1.4 8.3L16 21.9l-7.4 4 1.4-8.3-6-5.8 8.3-1.2z" fill="#f2b705"/></svg>
-      Review<em>Radar</em>
+    <a class="wordmark" href="#top" aria-label="LeakLens home">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="none" stroke="#38e1c6" stroke-width="3"/><circle cx="16" cy="16" r="5" fill="#38e1c6"/><path d="M16 3v4M16 25v4M3 16h4M25 16h4" stroke="#38e1c6" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Leak<em>Lens</em>
     </a>
-    <p>© 2026 ReviewRadar. No testimonials yet — here's the working toolkit instead.</p>
+    <p>© 2026 LeakLens. Your site is leaking money. Find out where.</p>
   </div>
 </footer>
 </body>
