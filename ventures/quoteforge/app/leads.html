@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuoteForge — Lead dashboard</title>
+<meta name="description" content="Every quote becomes a lead: statuses, one-tap call and email, CSV export.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="app-header">
+  <div class="wrap">
+    <a class="wordmark" href="../index.html" aria-label="QuoteForge home">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="#ffb224"/><path d="M17 7 L10 17 h5 L15 25 L23 14 h-6 z" fill="#1a1206"/></svg>
+      Quote<em>Forge</em>
+    </a>
+    <nav class="app-nav" aria-label="App">
+      <a href="index.html">Hub</a>
+      <a href="setup.html">Setup</a>
+      <a href="leads.html" class="active">Leads</a>
+      <a href="legal.html">Legal</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="page-title">Lead dashboard</h1>
+  <p class="page-sub" id="dashSub">Every customer who gets a quote lands here. Work them newest-first.</p>
+
+  <div class="panel tight" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <label class="f" for="statusFilter" style="margin:0">Filter</label>
+      <select id="statusFilter" style="width:auto;min-width:150px">
+        <option value="">All statuses</option>
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="quoted">Quoted</option>
+        <option value="won">Won</option>
+      </select>
+      <input type="text" id="searchBox" placeholder="Search name, phone, service…" style="width:220px" aria-label="Search leads">
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn ghost small" id="emailLeads">Email leads to me</button>
+      <button class="btn small" id="csvBtn">Export CSV</button>
+    </div>
+  </div>
+
+  <div id="stats" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px"></div>
+  <div id="leadList"></div>
+</main>
+
+<footer class="app-foot">
+  <div class="wrap">
+    <a class="wordmark" href="../index.html" style="font-size:1rem">
+      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="#ffb224"/><path d="M17 7 L10 17 h5 L15 25 L23 14 h-6 z" fill="#1a1206"/></svg>
+      Quote<em>Forge</em>
+    </a>
+    <p><a href="../index.html#buy">Get QuoteForge — $29/mo</a> · <a href="legal.html">Legal &amp; v2 notes</a></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script src="leads.js"></script>
+</body>
+</html>

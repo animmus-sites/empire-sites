@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuoteForge — Set up your services</title>
+<meta name="description" content="Define your services and price modifiers, preview the customer flow, and get your shareable quote link.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="app-header">
+  <div class="wrap">
+    <a class="wordmark" href="../index.html" aria-label="QuoteForge home">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="#ffb224"/><path d="M17 7 L10 17 h5 L15 25 L23 14 h-6 z" fill="#1a1206"/></svg>
+      Quote<em>Forge</em>
+    </a>
+    <nav class="app-nav" aria-label="App">
+      <a href="index.html">Hub</a>
+      <a href="setup.html" class="active">Setup</a>
+      <a href="leads.html">Leads</a>
+      <a href="legal.html">Legal</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="page-title">Set up your services</h1>
+  <p class="page-sub">Describe each service once — base price plus the 3–5 questions that change the price. Everything saves automatically in this browser. Your shareable link carries the whole config, no account needed.</p>
+
+  <section class="card">
+    <p class="kicker">Business info</p>
+    <div class="row2">
+      <div class="field"><label class="f" for="bizName">Business name</label>
+        <input type="text" id="bizName" maxlength="80" placeholder="e.g. GreenEdge Lawn Co.">
+        <div class="err">Please enter your business name.</div></div>
+      <div class="field"><label class="f" for="bizPhone">Business phone</label>
+        <input type="tel" id="bizPhone" placeholder="(555) 123-4567">
+        <div class="err">Enter a valid phone number (7–15 digits).</div></div>
+    </div>
+    <div class="field"><label class="f" for="bizEmail">Email for new leads</label>
+      <input type="email" id="bizEmail" placeholder="you@yourbusiness.com">
+      <p class="hint">New-lead notifications are emailed to you via your customer's email app (mailto) — v1 has no automatic sending. See the <a href="legal.html" style="color:var(--amber)">v2 notes</a>.</p>
+      <div class="err">Enter a valid email address.</div></div>
+  </section>
+
+  <section>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin:26px 0 14px">
+      <h2 style="font-size:1.4rem">Services</h2>
+      <button class="btn small" id="addService">+ Add service</button>
+    </div>
+    <div id="svcList"></div>
+    <p class="hint" id="svcEmptyHint" style="display:none">No services yet — add your first one above, or load the editable sample below.</p>
+    <button class="add-link" id="loadSample">Load editable sample (landscaping)</button>
+  </section>
+
+  <section class="card" style="margin-top:26px">
+    <p class="kicker">Live preview</p>
+    <h3 style="margin-bottom:8px">What your customer will see</h3>
+    <p class="page-sub" style="margin-bottom:14px">Updates as you type. Ranges are rounded to the nearest 10 — never a fake-precise number.</p>
+    <div id="preview"></div>
+  </section>
+
+  <section class="card">
+    <p class="kicker">Share</p>
+    <h3 style="margin-bottom:8px">Your customer quote link</h3>
+    <p class="page-sub" style="margin-bottom:14px">The link carries your full config in the URL itself (<span style="font-family:monospace">#c=…</span>). Text it, put it on your site, pin it to your Google profile.</p>
+    <div class="sharebox">
+      <div class="urlrow">
+        <input type="text" id="shareUrl" readonly aria-label="Shareable quote link" placeholder="Add at least one valid service to generate your link">
+        <button class="btn small" id="copyLink" disabled>Copy</button>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+        <button class="btn ghost small" id="openQuote" disabled>Open customer view</button>
+      </div>
+      <p class="hint" id="shareHint"></p>
+    </div>
+  </section>
+</main>
+
+<footer class="app-foot">
+  <div class="wrap">
+    <a class="wordmark" href="../index.html" style="font-size:1rem">
+      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="#ffb224"/><path d="M17 7 L10 17 h5 L15 25 L23 14 h-6 z" fill="#1a1206"/></svg>
+      Quote<em>Forge</em>
+    </a>
+    <p><a href="../index.html#buy">Get QuoteForge — $29/mo</a> · <a href="legal.html">Legal &amp; v2 notes</a></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script src="setup.js"></script>
+</body>
+</html>

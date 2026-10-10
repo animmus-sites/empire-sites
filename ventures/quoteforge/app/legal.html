@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuoteForge — Legal, disclosures &amp; v2 notes</title>
+<meta name="description" content="How QuoteForge pricing, data, and the honest soft gate work — plus what's slated for v2.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="app-header">
+  <div class="wrap">
+    <a class="wordmark" href="../index.html" aria-label="QuoteForge home">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="#ffb224"/><path d="M17 7 L10 17 h5 L15 25 L23 14 h-6 z" fill="#1a1206"/></svg>
+      Quote<em>Forge</em>
+    </a>
+    <nav class="app-nav" aria-label="App">
+      <a href="index.html">Hub</a>
+      <a href="setup.html">Setup</a>
+      <a href="leads.html">Leads</a>
+      <a href="legal.html" class="active">Legal</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap narrow legal-doc">
+  <h1 class="page-title">Legal, honest disclosures &amp; v2 notes</h1>
+  <p class="page-sub">Plain language, no fine-print games. Last updated October 2026.</p>
+
+  <h2>The honest soft gate</h2>
+  <p>QuoteForge costs <strong style="color:var(--ink)">$29/month</strong> (see <a href="../index.html#buy" style="color:var(--amber)">pricing</a>). Online checkout via Stripe Payment Links is still being wired up — so right now <strong style="color:var(--ink)">nothing in this app is locked, gated, or faked</strong>. You get the full setup flow, the shareable customer link, and the lead dashboard today. When checkout goes live, paying customers keep everything working exactly as-is; that's the whole point of a soft gate.</p>
+
+  <h2>Your data stays in your browser</h2>
+  <p>QuoteForge v1 has no backend and no accounts. Your business setup and your leads live in this browser's localStorage — the same device you set them up on. That means:</p>
+  <ul>
+    <li>Nothing is uploaded to our servers, because there are no servers.</li>
+    <li>Leads captured on a customer's phone reach you via the <strong style="color:var(--ink)">mailto email bridge</strong> in the quote flow (their email app, prefilled) — plus you can export everything to CSV any time.</li>
+    <li>Clearing your browser's site data erases your setup and leads. Export CSV regularly; it's your backup.</li>
+    <li>Leads do <strong style="color:var(--ink)">not</strong> sync across your devices in v1.</li>
+  </ul>
+
+  <h2>How the price ranges work</h2>
+  <p>Every range is computed from the pricing logic <em>you</em> define: base price plus your modifier questions. Low = base + the cheapest possible combination of answers; high = base + the most expensive combination; both rounded to the nearest 10. The customer's answers also produce a single "most similar jobs land around" estimate, marked on the range bar. Ranges are estimates, not binding quotes — you confirm the final price when you see the job.</p>
+
+  <h2>v2 notes — cut from v1, not forgotten</h2>
+  <p>These were deliberately left out of v1 so the core could ship solid. Each is on the v2 roadmap:</p>
+  <ul>
+    <li><strong style="color:var(--ink)">Real SMS sending.</strong> v1 uses your phone's tel: and sms-style links — nothing sends automatically. v2: opt-in SMS notifications via a messaging provider.</li>
+    <li><strong style="color:var(--ink)">In-flow payments.</strong> v1 links out for payment only. v2: optional deposit collection inside the customer flow via Stripe.</li>
+    <li><strong style="color:var(--ink)">Multi-user accounts.</strong> v1 is one workspace per browser — no logins, no team seats. v2: accounts with team access and roles.</li>
+    <li><strong style="color:var(--ink)">Calendar booking.</strong> v1 ends at the quote + lead. v2: let customers pick an on-site visit slot right after their quote.</li>
+    <li><strong style="color:var(--ink)">Cross-device lead sync.</strong> v1 keeps leads on the device that captured them, bridged by email. v2: cloud sync across your phone, tablet, and office computer.</li>
+  </ul>
+
+  <h2>Contact</h2>
+  <p>Questions about billing, your data, or the roadmap: reply through the QuoteForge site. This is a demo-grade v1 — your feedback shapes what v2 becomes.</p>
+
+  <div style="margin:32px 0">
+    <a class="btn" href="../index.html#buy">Get QuoteForge — $29/mo</a>
+  </div>
+</main>
+
+<footer class="app-foot">
+  <div class="wrap">
+    <a class="wordmark" href="../index.html" style="font-size:1rem">
+      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="#ffb224"/><path d="M17 7 L10 17 h5 L15 25 L23 14 h-6 z" fill="#1a1206"/></svg>
+      Quote<em>Forge</em>
+    </a>
+    <p>© 2026 QuoteForge. Quote jobs while you sleep.</p>
+  </div>
+</footer>
+</body>
+</html>

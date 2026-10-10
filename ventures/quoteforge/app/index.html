@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuoteForge — Quote jobs while you sleep.</title>
+<meta name="description" content="Set up your services once, share one link, and every customer gets an honest price range instantly — with their name and number landing in your dashboard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#14100b; --bg2:#1d1712; --card:#211a13; --line:#3a2e20;
+  --ink:#faf5ec; --muted:#c9bba6; --faint:#8f8071;
+  --amber:#ffb224; --amber-deep:#f08c00; --amber-soft:#ffcf6b;
+  --ok:#7bd88f;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+h1,h2,h3,.display{font-family:"Archivo",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.12;letter-spacing:-.02em}
+::selection{background:var(--amber);color:#1a1206}
+/* header */
+.site-header{position:sticky;top:0;z-index:50;background:rgba(20,16,11,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.wordmark{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:"Archivo",sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:-.01em}
+.wordmark svg{flex:none}
+.wordmark em{font-style:normal;color:var(--amber)}
+.nav-cta{display:inline-block;background:var(--amber);color:#1a1206;font-weight:700;text-decoration:none;padding:10px 20px;border-radius:10px;font-size:.95rem;transition:transform .15s ease,box-shadow .15s ease}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,178,36,.35)}
+/* hero */
+.hero{position:relative;padding:96px 0 72px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto;height:640px;background:radial-gradient(600px 320px at 50% 0%,rgba(255,178,36,.16),transparent 70%);pointer-events:none}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);border:1px solid var(--line);background:var(--bg2);padding:7px 14px;border-radius:999px;margin-bottom:24px}
+.hero h1{font-size:clamp(2.5rem,5.4vw,4rem);font-weight:800;margin-bottom:20px}
+.hero h1 .hl{color:var(--amber)}
+.lede{font-size:1.18rem;color:var(--muted);max-width:34rem;margin-bottom:32px}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:16px}
+.btn{display:inline-block;background:var(--amber);color:#1a1206;font-weight:700;font-size:1.05rem;text-decoration:none;padding:16px 30px;border-radius:12px;transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,178,36,.4)}
+.risk{font-size:.92rem;color:var(--faint);max-width:34rem}
+.hero-visual{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 24px 64px rgba(0,0,0,.45)}
+.mock{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
+.mock-bar{display:flex;gap:6px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.mock-bar i{width:10px;height:10px;border-radius:50%;background:#4a3d2c;display:block}
+.mock-bar i:first-child{background:var(--amber)}
+.mock-body{padding:22px}
+.mock-body .q{font-size:.85rem;color:var(--faint);margin-bottom:6px}
+.mock-body .a{font-weight:600;margin-bottom:14px}
+.range{display:flex;align-items:baseline;gap:10px;background:rgba(255,178,36,.08);border:1px dashed var(--amber);border-radius:10px;padding:14px 18px;margin:6px 0 16px}
+.range b{font-family:"Archivo",sans-serif;font-size:1.6rem;color:var(--amber)}
+.range span{font-size:.85rem;color:var(--muted)}
+.mock-note{font-size:.85rem;color:var(--faint)}
+/* sections */
+section.block{padding:80px 0}
+.kicker{font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+.block h2{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:800;margin-bottom:14px}
+.block .sub{color:var(--muted);max-width:44rem;margin-bottom:44px;font-size:1.05rem}
+/* proof strip */
+.proof{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:28px 32px;margin:0 0 8px;display:flex;gap:18px;align-items:flex-start}
+.proof .tick{flex:none;width:40px;height:40px;border-radius:12px;background:rgba(255,178,36,.12);display:flex;align-items:center;justify-content:center}
+.proof p{color:var(--muted);font-size:1rem}
+.proof p strong{color:var(--ink)}
+/* benefits */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px 28px;transition:transform .18s ease,border-color .18s ease}
+.card:hover{transform:translateY(-4px);border-color:var(--amber-deep)}
+.card .icon{width:48px;height:48px;border-radius:14px;background:rgba(255,178,36,.12);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.card h3{font-size:1.25rem;margin-bottom:10px}
+.card p{color:var(--muted);font-size:.98rem}
+/* how */
+.how{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:step}
+.step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px 28px;position:relative}
+.step::before{counter-increment:step;content:counter(step);font-family:"Archivo",sans-serif;font-weight:800;font-size:2.6rem;color:var(--amber);opacity:.9;display:block;margin-bottom:14px}
+.step h3{font-size:1.15rem;margin-bottom:8px}
+.step p{color:var(--muted);font-size:.97rem}
+/* pricing */
+.pricing-grid{display:grid;grid-template-columns:1fr;gap:22px;max-width:640px}
+.price-card{background:linear-gradient(180deg,#262015,#1d1712);border:1px solid var(--amber-deep);border-radius:22px;padding:44px 40px;box-shadow:0 24px 64px rgba(240,140,0,.12)}
+.price-card .plan{font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.82rem;color:var(--amber);margin-bottom:10px}
+.price{font-family:"Archivo",sans-serif;font-size:3.2rem;font-weight:800;margin-bottom:6px}
+.price small{font-size:1.1rem;color:var(--muted);font-weight:600}
+.feat{list-style:none;margin:24px 0 30px}
+.feat li{padding:9px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:.98rem;display:flex;gap:10px;align-items:flex-start}
+.feat li::before{content:"✓";color:var(--amber);font-weight:700;flex:none}
+.money-logic{margin-top:22px;color:var(--muted);font-size:.98rem;border-left:3px solid var(--amber);padding-left:18px}
+/* faq */
+.faq-list{max-width:760px}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+summary{cursor:pointer;padding:20px 24px;font-weight:600;font-size:1.02rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.5rem;color:var(--amber);flex:none;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details .a{padding:0 24px 22px;color:var(--muted);font-size:.98rem}
+/* footer */
+footer{border-top:1px solid var(--line);padding:40px 0;background:var(--bg2)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+footer p{color:var(--faint);font-size:.88rem}
+/* responsive */
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .hero{padding:64px 0 52px}
+  .cards,.steps{grid-template-columns:1fr}
+  section.block{padding:56px 0}
+  .price-card{padding:34px 26px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="#top" aria-label="QuoteForge home">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="#ffb224"/><path d="M17 7 L10 17 h5 L15 25 L23 14 h-6 z" fill="#1a1206"/></svg>
+      Quote<em>Forge</em>
+    </a>
+    <a class="nav-cta" href="#buy">Set up my quote link</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">For contractors &amp; home-service pros</span>
+        <h1>Quote jobs <span class="hl">while you sleep.</span></h1>
+        <p class="lede">Set up your services once, share one link, and every customer gets an honest price range instantly — with their name and number landing in your dashboard.</p>
+        <div class="cta-row">
+          <a class="btn" href="#buy">Set up my quote link — $29/mo</a>
+        </div>
+        <p class="risk">Set up your services and modifier questions in an evening — if you can describe the job, you can price it. Month-to-month, cancel whenever the season's over.</p>
+      </div>
+      <div class="hero-visual" aria-label="Sample QuoteForge customer quote preview">
+        <div class="mock">
+          <div class="mock-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="mock-body">
+            <p class="q">Service</p><p class="a">Lawn mowing — weekly</p>
+            <p class="q">Yard size</p><p class="a">Up to 1/4 acre</p>
+            <p class="q">Your instant range</p>
+            <div class="range"><b>$40 – $60</b><span>per visit</span></div>
+            <p class="mock-note">Rounded to the nearest 10. A range you can stand behind when you show up.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="proof">
+        <span class="tick" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffb224" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <p><strong>No fabricated contractor testimonials.</strong> Instead: the real thing. <strong><a href="app/">Try the working QuoteForge app</a></strong> — set up a sample landscaping service, open the customer quote link, and watch the price range build. That's exactly what your customers will use.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:24px">
+    <div class="wrap">
+      <p class="kicker">Why QuoteForge</p>
+      <h2>Built for the way contractors actually win work</h2>
+      <p class="sub">The job goes to whoever answers first. QuoteForge makes sure that's you — even at 11 PM.</p>
+      <div class="cards">
+        <article class="card">
+          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffb224" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
+          <h3>Stop quoting at 9 PM</h3>
+          <p>A homeowner asks for a price at 11 PM; you answer it tomorrow, and they've already hired the guy who answered tonight. Your link quotes them instantly while you're on a job, with your family, or asleep.</p>
+        </article>
+        <article class="card">
+          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffb224" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg></span>
+          <h3>Ranges, not fake precision</h3>
+          <p>"Your estimate: $487.23" is a number you can't honor. QuoteForge gives a rounded range — low to high, to the nearest 10 — based on the services and modifier questions you configure. That's a range you can stand behind when you show up.</p>
+        </article>
+        <article class="card">
+          <span class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffb224" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></span>
+          <h3>Leads, not tire-kickers</h3>
+          <p>To see their price, they give a name, phone, and email. Every quote becomes a lead in your dashboard with statuses and CSV export. No more estimating from text threads and napkins.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block how">
+    <div class="wrap">
+      <p class="kicker">How it works</p>
+      <h2>Quoting by tonight, leads by morning</h2>
+      <p class="sub">If you can describe the job, you can price it.</p>
+      <div class="steps">
+        <article class="step">
+          <h3>Set up your services</h3>
+          <p>Set up your services and the 3–5 questions that change the price (sq. footage, stories, pets, whatever applies).</p>
+        </article>
+        <article class="step">
+          <h3>Share your link</h3>
+          <p>Share your link — text it, put it on your site, pin it to your Google profile.</p>
+        </article>
+        <article class="step">
+          <h3>Quote + capture</h3>
+          <p>Customer picks a service, answers the questions, gets an instant range — and lands in your lead dashboard.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="buy">
+    <div class="wrap">
+      <p class="kicker">Pricing</p>
+      <h2>One plan. Everything included.</h2>
+      <p class="sub">Less than one lawn mow on most routes.</p>
+      <div class="pricing-grid">
+        <article class="price-card">
+          <p class="plan">QuoteForge</p>
+          <p class="price">$29<small>/month</small></p>
+          <ul class="feat">
+            <li>Unlimited quotes</li>
+            <li>Your own shareable link</li>
+            <li>Lead dashboard with statuses</li>
+            <li>CSV export</li>
+            <li>Cancel any time</li>
+          </ul>
+          <a class="btn" href="#buy">Set up my quote link — $29/mo</a>
+          <p class="money-logic">One $29 month is less than one lawn mow on most routes. If it quotes even a handful of jobs a month you'd otherwise miss, it's paid for itself.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <p class="kicker">FAQ</p>
+      <h2>Straight answers</h2>
+      <p class="sub">No fine print, no sales rep required.</p>
+      <div class="faq-list">
+        <details>
+          <summary>Will the price match what I charge on-site?</summary>
+          <div class="a"><p>It's a range, by design — low to high, rounded to the nearest 10, based on the modifiers you define. You set the questions that matter for your work, so the range reflects your real pricing logic, and you confirm the final number when you see the job.</p></div>
+        </details>
+        <details>
+          <summary>Do customers need an account or app?</summary>
+          <div class="a"><p>No. They open your link in any phone browser, pick a service, answer your questions, see the range, and leave their contact info. Nothing to install on either end.</p></div>
+        </details>
+        <details>
+          <summary>Can I cancel in the off-season?</summary>
+          <div class="a"><p>Yes — it's month-to-month. Cancel through Stripe in the off-season, come back in spring. Your lead history exports to CSV before you go, so nothing is trapped inside.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="wordmark" href="#top" aria-label="QuoteForge home">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="#ffb224"/><path d="M17 7 L10 17 h5 L15 25 L23 14 h-6 z" fill="#1a1206"/></svg>
+      Quote<em>Forge</em>
+    </a>
+    <p>© 2026 QuoteForge. Quote jobs while you sleep.</p>
+  </div>
+</footer>
+</body>
+</html>
